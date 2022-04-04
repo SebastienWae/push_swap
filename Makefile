@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/04 16:34:52 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/04 16:39:10 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -I./include -I./$(FT_PRINTF)/include -I./$(LIBFT)
 LDFLAGS += -L./$(FT_PRINTF) -L./$(LIBFT) -lftprintf -lft
 
-SRCS = 
+SRCS = push_swap.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a
