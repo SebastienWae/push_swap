@@ -1,0 +1,9 @@
+*.o
+*.a
+*.d
+*.dSYM
+.vscode/configurationCache.log
+.vscode/dryrun.log
+.vscode/targets.log
+push_swap
+checker
