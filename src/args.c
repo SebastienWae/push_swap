@@ -6,12 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/06 18:00:10 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/06 19:06:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
-#include <libft.h>
+#include <stdlib.h>
 
 static int	safe_int_add(unsigned int nb, int add, int sign)
 {
@@ -68,9 +68,9 @@ int	*parse_args(char **values, int size)
 	int		*args;
 
 	i = 0;
-	args = (int *)malloc(sizeof(int) * size);
+	args = malloc(sizeof(int) * size);
 	if (!args)
-		return (NULL);
+		error();
 	while (i < size)
 	{
 		value = parse_arg(values[i]);

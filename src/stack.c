@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/06 17:24:12 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/06 19:00:42 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,17 @@
 t_list	*create_stack(int *values, int size)
 {
 	t_list	*stack;
+	t_list	*node;
 	int		i;
 
 	i = 0;
 	stack = NULL;
 	while (i < size)
 	{
-		ft_lstadd_back(&stack, ft_lstnew(&values[i]));
-		if (!stack)
-			return (NULL);
+		node = ft_lstnew(&values[i]);
+		if (!node)
+			error();
+		ft_lstadd_back(&stack, node);
 		i++;
 	}
 	return (stack);
