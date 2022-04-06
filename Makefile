@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/04 16:39:10 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/06 16:30:36 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,7 @@ $(FT_PRINTF)/libftprintf.a:
 	$(MAKE) -C $(FT_PRINTF) LIBFT_DIR=../$(LIBFT)/
 
 $(LIBFT)/libft.a:
-	$(MAKE) -C $(LIBFT)
+	$(MAKE) -C bonus $(LIBFT)
 
 $(DIRS):
 	$(MKDIR) "$@"
