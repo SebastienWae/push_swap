@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/06 16:30:36 by seb              ###   ########.fr        #
+#    Updated: 2022/04/06 17:28:21 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ ifdef MAKE_DEBUG
 OUT_DIR = ./debug/
 NAME := $(OUT_DIR)$(NAME)
 DIRS = $(OUT_DIR)
-CFLAGS = -g3 
+CFLAGS = -g3 -fsanitize=address
 else
 OUT_DIR = ./
 endif
@@ -34,7 +34,7 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -I./include -I./$(FT_PRINTF)/include -I./$(LIBFT)
 LDFLAGS += -L./$(FT_PRINTF) -L./$(LIBFT) -lftprintf -lft
 
-SRCS = push_swap.c
+SRCS = push_swap.c stack.c args.c list.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a
@@ -47,7 +47,7 @@ $(FT_PRINTF)/libftprintf.a:
 	$(MAKE) -C $(FT_PRINTF) LIBFT_DIR=../$(LIBFT)/
 
 $(LIBFT)/libft.a:
-	$(MAKE) -C bonus $(LIBFT)
+	$(MAKE) -C $(LIBFT) bonus
 
 $(DIRS):
 	$(MKDIR) "$@"

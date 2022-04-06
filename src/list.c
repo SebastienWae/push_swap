@@ -1,40 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   stack.c                                            :+:      :+:    :+:   */
+/*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/06 17:24:12 by seb              ###   ########.fr       */
+/*   Created: 2022/04/06 17:21:11 by seb               #+#    #+#             */
+/*   Updated: 2022/04/06 17:29:26 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
 #include <libft.h>
+#include <ft_printf.h>
 
-t_list	*create_stack(int *values, int size)
+void	print_list(char *format, t_list *head)
 {
-	t_list	*stack;
-	int		i;
-
-	i = 0;
-	stack = NULL;
-	while (i < size)
+	while (head)
 	{
-		ft_lstadd_back(&stack, ft_lstnew(&values[i]));
-		if (!stack)
-			return (NULL);
-		i++;
+		ft_printf(format, *((int *)head->content));
+		head = head->next;
 	}
-	return (stack);
-}
-
-void	sort_stack(t_list *stack, t_list *instructions)
-{
-	t_list	*tmp_stack;
-
-	(void)tmp_stack;
-	(void)instructions;
-	print_list("%d\n", stack);
 }
