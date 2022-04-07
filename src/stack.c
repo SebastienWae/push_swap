@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/07 15:50:10 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/07 18:00:47 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 #include <libft.h>
+#include <ft_printf.h>
 
 t_list	*create_stack(int *values, int size)
 {
@@ -32,12 +33,17 @@ t_list	*create_stack(int *values, int size)
 	return (stack);
 }
 
-void	sort_stack(t_list *stack, t_list *ops)
+void	sort_stack(t_list *stack_a)
 {
-	t_list	*tmp_stack;
+	t_list	*stack_b;
 
-	(void)tmp_stack;
-	(void)ops;
-	tmp_stack = NULL;
-	rotate(&stack);
+	stack_b = NULL;
+	do_op(&stack_a, &stack_b, "pb");
+	do_op(&stack_a, &stack_b, "pb");
+	do_op(&stack_a, &stack_b, "pb");
+	do_op(&stack_a, &stack_b, "pa");
+	ft_printf("-------\n");
+	print_list("%d\n", stack_a);
+	ft_printf("-------\n");
+	print_list("%d\n", stack_b);
 }
