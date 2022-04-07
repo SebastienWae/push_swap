@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/07 18:39:02 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/07 19:08:01 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,7 @@ void	sort_stack(t_list *stack_a)
 	t_list	*stack_b;
 
 	stack_b = NULL;
-	do_op(&stack_a, &stack_b, PA);
-	do_op(&stack_a, &stack_b, PB);
-	do_op(&stack_a, &stack_b, RA);
-	do_op(&stack_a, &stack_b, RB);
-	do_op(&stack_a, &stack_b, RR);
-	do_op(&stack_a, &stack_b, RRA);
-	do_op(&stack_a, &stack_b, RRB);
-	do_op(&stack_a, &stack_b, RRR);
+	do_op(&stack_a, &stack_b, REVERSE_ROTATE_AB);
 	ft_printf("-------\n");
 	print_list("%d\n", stack_a);
 	ft_printf("-------\n");

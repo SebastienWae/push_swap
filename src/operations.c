@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/07 18:42:50 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/07 19:06:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,29 +55,24 @@ static void	reverse_rotate(t_list **stack)
 
 	if (*stack)
 	{
-		cur = (*stack)->next;
-		if (cur)
+		cur = *stack;
+		prev = NULL;
+		while (cur->next)
 		{
-			prev = NULL;
-			while (cur->next)
-			{
-				prev = cur;
-				cur = cur->next;
-			}
-			if (prev)
-			{
-				prev->next = NULL;
-				ft_lstadd_front(stack, cur);
-			}
+			prev = cur;
+			cur = cur->next;
+		}
+		if (prev)
+		{
+			prev->next = NULL;
+			ft_lstadd_front(stack, cur);
 		}
 	}
 }
 
 void	do_op(t_list **stack_a, t_list **stack_b, enum e_op op)
 {
-	static const char	*ops[] = {
-		"pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"
-	};
+	const char	*ops[] = {"pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"};
 
 	if (!ft_strncmp(ops[op], "pa", ft_strlen(ops[op])))
 		push(stack_a, stack_b);
@@ -88,12 +83,18 @@ void	do_op(t_list **stack_a, t_list **stack_b, enum e_op op)
 	else if (!ft_strncmp(ops[op], "rb", ft_strlen(ops[op])))
 		rotate(stack_b);
 	else if (!ft_strncmp(ops[op], "rr", ft_strlen(ops[op])))
+	{
 		rotate(stack_a);
+		rotate(stack_b);
+	}
 	else if (!ft_strncmp(ops[op], "rra", ft_strlen(ops[op])))
 		reverse_rotate(stack_a);
 	else if (!ft_strncmp(ops[op], "rrb", ft_strlen(ops[op])))
 		reverse_rotate(stack_b);
 	else if (!ft_strncmp(ops[op], "rrr", ft_strlen(ops[op])))
+	{
 		reverse_rotate(stack_a);
+		reverse_rotate(stack_b);
+	}
 	ft_printf("%s\n", ops[op]);
 }
