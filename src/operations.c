@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/07 18:10:31 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/07 18:42:50 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,16 @@ static void	rotate(t_list **stack)
 {
 	t_list	*head;
 
-	head = *stack;
-	*stack = (*stack)->next;
-	ft_lstadd_back(stack, head);
-	head->next = NULL;
+	if (*stack)
+	{
+		head = *stack;
+		if (head->next)
+		{
+			*stack = (*stack)->next;
+			ft_lstadd_back(stack, head);
+			head->next = NULL;
+		}
+	}
 }
 
 // reverse rotate
@@ -47,33 +53,47 @@ static void	reverse_rotate(t_list **stack)
 	t_list	*cur;
 	t_list	*prev;
 
-	cur = (*stack)->next;
-	while (cur->next)
+	if (*stack)
 	{
-		prev = cur;
-		cur = cur->next;
+		cur = (*stack)->next;
+		if (cur)
+		{
+			prev = NULL;
+			while (cur->next)
+			{
+				prev = cur;
+				cur = cur->next;
+			}
+			if (prev)
+			{
+				prev->next = NULL;
+				ft_lstadd_front(stack, cur);
+			}
+		}
 	}
-	prev->next = NULL;
-	ft_lstadd_front(stack, cur);
 }
 
-void	do_op(t_list **stack_a, t_list **stack_b, char *op)
+void	do_op(t_list **stack_a, t_list **stack_b, enum e_op op)
 {
-	if (!ft_strncmp(op, "pa", ft_strlen(op)))
+	static const char	*ops[] = {
+		"pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"
+	};
+
+	if (!ft_strncmp(ops[op], "pa", ft_strlen(ops[op])))
 		push(stack_a, stack_b);
-	else if (!ft_strncmp(op, "pb", ft_strlen(op)))
+	else if (!ft_strncmp(ops[op], "pb", ft_strlen(ops[op])))
 		push(stack_b, stack_a);
-	else if (!ft_strncmp(op, "ra", ft_strlen(op)))
+	else if (!ft_strncmp(ops[op], "ra", ft_strlen(ops[op])))
 		rotate(stack_a);
-	else if (!ft_strncmp(op, "rb", ft_strlen(op)))
+	else if (!ft_strncmp(ops[op], "rb", ft_strlen(ops[op])))
 		rotate(stack_b);
-	else if (!ft_strncmp(op, "rr", ft_strlen(op)))
+	else if (!ft_strncmp(ops[op], "rr", ft_strlen(ops[op])))
 		rotate(stack_a);
-	else if (!ft_strncmp(op, "rra", ft_strlen(op)))
+	else if (!ft_strncmp(ops[op], "rra", ft_strlen(ops[op])))
 		reverse_rotate(stack_a);
-	else if (!ft_strncmp(op, "rrb", ft_strlen(op)))
+	else if (!ft_strncmp(ops[op], "rrb", ft_strlen(ops[op])))
 		reverse_rotate(stack_b);
-	else if (!ft_strncmp(op, "rrr", ft_strlen(op)))
+	else if (!ft_strncmp(ops[op], "rrr", ft_strlen(ops[op])))
 		reverse_rotate(stack_a);
-	ft_printf("%s\n", op);
+	ft_printf("%s\n", ops[op]);
 }
