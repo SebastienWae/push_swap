@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/06 19:00:42 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/07 15:50:10 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@ t_list	*create_stack(int *values, int size)
 	return (stack);
 }
 
-void	sort_stack(t_list *stack, t_list *instructions)
+void	sort_stack(t_list *stack, t_list *ops)
 {
 	t_list	*tmp_stack;
 
 	(void)tmp_stack;
-	(void)instructions;
-	print_list("%d\n", stack);
+	(void)ops;
+	tmp_stack = NULL;
+	rotate(&stack);
 }

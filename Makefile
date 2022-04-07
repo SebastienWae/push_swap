@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/06 17:28:21 by seb              ###   ########.fr        #
+#    Updated: 2022/04/07 15:11:37 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ CFLAGS += -Wall -Wextra -Werror
 CPPFLAGS += -I./include -I./$(FT_PRINTF)/include -I./$(LIBFT)
 LDFLAGS += -L./$(FT_PRINTF) -L./$(LIBFT) -lftprintf -lft
 
-SRCS = push_swap.c stack.c args.c list.c
+SRCS = push_swap.c stack.c args.c list.c operations.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a
