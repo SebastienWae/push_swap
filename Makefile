@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/07 15:11:37 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/11 21:21:24 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ ifdef MAKE_DEBUG
 OUT_DIR = ./debug/
 NAME := $(OUT_DIR)$(NAME)
 DIRS = $(OUT_DIR)
-CFLAGS = -g3 -fsanitize=address
+CFLAGS = -g3
 else
 OUT_DIR = ./
 endif

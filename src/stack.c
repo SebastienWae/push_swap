@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/11 17:17:40 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/11 22:13:40 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ t_moves	better_move(t_moves best, t_moves curr)
 		best.dir = RRA_RB;
 	}
 	ra_rb = max(curr.ra, curr.rb);
-	ra_rrb =curr.ra + curr.rrb;
+	ra_rrb = curr.ra + curr.rrb;
 	rra_rrb = max(curr.rra, curr.rrb);
 	rra_rb = curr.rra + curr.rb;
 	if (ra_rb <= ra_rrb && ra_rb <= rra_rrb && ra_rb <= rra_rb)
@@ -232,12 +232,6 @@ void	do_smart_moves(t_list **stack_a, t_list **stack_b, t_moves moves)
 	}
 	else if (moves.dir == RA_RRB)
 	{
-		while (moves.ra > 0 && moves.rrb > 0)
-		{
-			do_op(stack_a, stack_b, ROTATE_AB);
-			moves.ra--;
-			moves.rrb--;
-		}
 		while (moves.ra > 0)
 		{
 			do_op(stack_a, stack_b, ROTATE_A);
@@ -270,12 +264,6 @@ void	do_smart_moves(t_list **stack_a, t_list **stack_b, t_moves moves)
 	}
 	else if (moves.dir == RRA_RB)
 	{
-		while (moves.rra > 0 && moves.rb > 0)
-		{
-			do_op(stack_a, stack_b, REVERSE_ROTATE_AB);
-			moves.rra--;
-			moves.rb--;
-		}
 		while (moves.rra > 0)
 		{
 			do_op(stack_a, stack_b, REVERSE_ROTATE_A);
@@ -303,7 +291,10 @@ void	do_best_move(t_list **stack_a, t_list **stack_b)
 	size_a = ft_lstsize(*stack_a);
 	size_b = ft_lstsize(*stack_b);
 	stack_a_node = *stack_a;
-	best_moves.dir = NO_DIR;
+	best_moves.ra = 999999;
+	best_moves.rb = 999999;
+	best_moves.rra = 999999;
+	best_moves.rrb = 999999;
 	while (stack_a_node)
 	{
 		curr_moves.rra = ft_lstsize(stack_a_node);
@@ -315,9 +306,11 @@ void	do_best_move(t_list **stack_a, t_list **stack_b)
 			biggest = stack_b_node;
 			while (stack_b_node)
 			{
-				if (*((int *)stack_a_node->content) >= *((int *)stack_b_node->content)
-					&& (!target || *((int *)stack_b_node->content) >= *((int *)target->content)))
-					target = stack_b_node;
+				if (*((int *)stack_a_node->content) >= *((int *)stack_b_node->content))
+				{
+					if (!target || *((int *)stack_b_node->content) >= *((int *)target->content))
+						target = stack_b_node;
+				}
 				if (*((int *)stack_b_node->content) >= *((int *)biggest->content))
 					biggest = stack_b_node;
 				stack_b_node = stack_b_node->next;
@@ -332,10 +325,7 @@ void	do_best_move(t_list **stack_a, t_list **stack_b)
 			curr_moves.rb = 0;
 			curr_moves.rrb = 0;
 		}
-		if (best_moves.dir == NO_DIR)
-			best_moves = curr_moves;
-		else
-			best_moves = better_move(best_moves, curr_moves);
+		best_moves = better_move(best_moves, curr_moves);
 		stack_a_node = stack_a_node->next;
 	}
 	do_smart_moves(stack_a, stack_b, best_moves);
@@ -344,21 +334,33 @@ void	do_best_move(t_list **stack_a, t_list **stack_b)
 void	sort_stack(t_list *stack_a)
 {
 	t_list	*stack_b;
-	int		max_val;
+	t_list	*node;
+	t_list	*max_val;
 
 	stack_b = NULL;
-	max_val = *((int *)stack_a->content);
+	max_val = stack_a;
+	node = stack_a;
+	while (node)
+	{
+		if (*((int *)node->content) > *((int *)max_val->content))
+			max_val = node;
+		node = node->next;
+	}
 	while (stack_a)
 	{
-		if (*((int *)stack_a->content) > max_val)
-			max_val = *((int *)stack_a->content);
 		do_best_move(&stack_a, &stack_b);
 		do_op(&stack_a, &stack_b, PUSH_B);
 	}
-	print_list("%d\n", stack_b);
-	//while (*(int *)stack_b->content != max_val)
-	//	do_op(&stack_a, &stack_b, ROTATE_B);
-	//while (stack_b)
-	//	do_op(&stack_a, &stack_b, PUSH_A);
-	//print_list("%d\n", stack_a);
+	if (ft_lstsize(max_val) > ft_lstsize(stack_b) / 2)
+	{
+		while (stack_b != max_val)
+			do_op(&stack_a, &stack_b, ROTATE_B);
+	}
+	else
+	{
+		while (stack_b != max_val)
+			do_op(&stack_a, &stack_b, REVERSE_ROTATE_B);
+	}
+	while (stack_b)
+		do_op(&stack_a, &stack_b, PUSH_A);
 }
