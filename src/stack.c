@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stack.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/09 18:27:34 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/11 17:17:40 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,181 +147,218 @@ int	min(int a, int b)
 		return (b);
 }
 
-//TODO: remove
-#include <math.h>
+t_moves	better_move(t_moves best, t_moves curr)
+{
+	int	ra_rb;
+	int	ra_rrb;
+	int	rra_rrb;
+	int	rra_rb;
+	int	best_low;
+	int curr_low;
+
+	ra_rb = max(best.ra, best.rb);
+	ra_rrb =best.ra + best.rrb;
+	rra_rrb = max(best.rra, best.rrb);
+	rra_rb = best.rra + best.rb;
+	if (ra_rb <= ra_rrb && ra_rb <= rra_rrb && ra_rb <= rra_rb)
+	{
+		best_low = ra_rb;
+		best.dir = RA_RB;
+	}
+	else if (ra_rrb <= ra_rb && ra_rrb <= rra_rrb && ra_rrb <= rra_rb)
+	{
+		best_low = ra_rrb;
+		best.dir = RA_RRB;
+	}
+	else if (rra_rrb <= ra_rb && rra_rrb <= ra_rrb && rra_rrb <= rra_rb)
+	{
+		best_low = rra_rrb;
+		best.dir = RRA_RRB;
+	}
+	else
+	{
+		best_low = rra_rb;
+		best.dir = RRA_RB;
+	}
+	ra_rb = max(curr.ra, curr.rb);
+	ra_rrb =curr.ra + curr.rrb;
+	rra_rrb = max(curr.rra, curr.rrb);
+	rra_rb = curr.rra + curr.rb;
+	if (ra_rb <= ra_rrb && ra_rb <= rra_rrb && ra_rb <= rra_rb)
+	{
+		curr_low = ra_rb;
+		curr.dir = RA_RB;
+	}
+	else if (ra_rrb <= ra_rb && ra_rrb <= rra_rrb && ra_rrb <= rra_rb)
+	{
+		curr_low = ra_rrb;
+		curr.dir = RA_RRB;
+	}
+	else if (rra_rrb <= ra_rb && rra_rrb <= ra_rrb && rra_rrb <= rra_rb)
+	{
+		curr_low = rra_rrb;
+		curr.dir = RRA_RRB;
+	}
+	else
+	{
+		curr_low = rra_rb;
+		curr.dir = RRA_RB;
+	}
+	if (best_low >= curr_low)
+		return (curr);
+	return (best);
+}
+
+void	do_smart_moves(t_list **stack_a, t_list **stack_b, t_moves moves)
+{
+	if (moves.dir == RA_RB)
+	{
+		while (moves.ra > 0 && moves.rb > 0)
+		{
+			do_op(stack_a, stack_b, ROTATE_AB);
+			moves.ra--;
+			moves.rb--;
+		}
+		while (moves.ra > 0)
+		{
+			do_op(stack_a, stack_b, ROTATE_A);
+			moves.ra--;
+		}
+		while (moves.rb > 0)
+		{
+			do_op(stack_a, stack_b, ROTATE_B);
+			moves.rb--;
+		}
+	}
+	else if (moves.dir == RA_RRB)
+	{
+		while (moves.ra > 0 && moves.rrb > 0)
+		{
+			do_op(stack_a, stack_b, ROTATE_AB);
+			moves.ra--;
+			moves.rrb--;
+		}
+		while (moves.ra > 0)
+		{
+			do_op(stack_a, stack_b, ROTATE_A);
+			moves.ra--;
+		}
+		while (moves.rrb > 0)
+		{
+			do_op(stack_a, stack_b, REVERSE_ROTATE_B);
+			moves.rrb--;
+		}
+	}
+	else if (moves.dir == RRA_RRB)
+	{
+		while (moves.rra > 0 && moves.rrb > 0)
+		{
+			do_op(stack_a, stack_b, REVERSE_ROTATE_AB);
+			moves.rra--;
+			moves.rrb--;
+		}
+		while (moves.rra > 0)
+		{
+			do_op(stack_a, stack_b, REVERSE_ROTATE_A);
+			moves.rra--;
+		}
+		while (moves.rrb > 0)
+		{
+			do_op(stack_a, stack_b, REVERSE_ROTATE_B);
+			moves.rrb--;
+		}
+	}
+	else if (moves.dir == RRA_RB)
+	{
+		while (moves.rra > 0 && moves.rb > 0)
+		{
+			do_op(stack_a, stack_b, REVERSE_ROTATE_AB);
+			moves.rra--;
+			moves.rb--;
+		}
+		while (moves.rra > 0)
+		{
+			do_op(stack_a, stack_b, REVERSE_ROTATE_A);
+			moves.rra--;
+		}
+		while (moves.rb > 0)
+		{
+			do_op(stack_a, stack_b, ROTATE_B);
+			moves.rb--;
+		}
+	}
+}
+
+void	do_best_move(t_list **stack_a, t_list **stack_b)
+{
+	t_list	*stack_a_node;
+	t_list	*stack_b_node;
+	t_list	*target;
+	t_list	*biggest;
+	t_moves	best_moves;
+	t_moves	curr_moves;
+	int		size_a;
+	int		size_b;
+
+	size_a = ft_lstsize(*stack_a);
+	size_b = ft_lstsize(*stack_b);
+	stack_a_node = *stack_a;
+	best_moves.dir = NO_DIR;
+	while (stack_a_node)
+	{
+		curr_moves.rra = ft_lstsize(stack_a_node);
+		curr_moves.ra = size_a - curr_moves.rra;
+		if (size_b)
+		{
+			stack_b_node = *stack_b;
+			target = NULL;
+			biggest = stack_b_node;
+			while (stack_b_node)
+			{
+				if (*((int *)stack_a_node->content) >= *((int *)stack_b_node->content)
+					&& (!target || *((int *)stack_b_node->content) >= *((int *)target->content)))
+					target = stack_b_node;
+				if (*((int *)stack_b_node->content) >= *((int *)biggest->content))
+					biggest = stack_b_node;
+				stack_b_node = stack_b_node->next;
+			}
+			if (!target)
+				target = biggest;	
+			curr_moves.rrb = ft_lstsize(target);
+			curr_moves.rb =  size_b - curr_moves.rrb;
+		}
+		else
+		{
+			curr_moves.rb = 0;
+			curr_moves.rrb = 0;
+		}
+		if (best_moves.dir == NO_DIR)
+			best_moves = curr_moves;
+		else
+			best_moves = better_move(best_moves, curr_moves);
+		stack_a_node = stack_a_node->next;
+	}
+	do_smart_moves(stack_a, stack_b, best_moves);
+}
+
 void	sort_stack(t_list *stack_a)
 {
 	t_list	*stack_b;
-	t_list	*node; int		size;
-	int		i;
-	int		ra;
-	int		rb;
-	int		rra;
-	int		rrb;
-	int		c_ra;
-	int		c_rb;
-	int		c_rra;
-	int		c_rrb;
-	int     sm;
-	t_list	*start;
-	t_list	*end;
-	t_list	*start2;
-	t_list	*end2;
-	
+	int		max_val;
+
 	stack_b = NULL;
-	size = ft_lstsize(stack_a);
-	i = 0;
-	ra = 0;
-	rb = size;
-	rra = 0;
-	rrb = size;
-	node = stack_a;
-	start = node;
-	end = node;
-	start2 = node;
-	end2 = node;
-	while (node)
-	{
-		if (*((int *)node->content) > *((int *)end->content))
-			end = node;
-		else
-		{
-			if (ft_lstsize(start) - ft_lstsize(end) > ft_lstsize(start2) - ft_lstsize(end2))
-			{
-				start2 = start;
-				end2 = end;
-			}
-			start = node;
-			end = node;	
-		}
-		node = node->next;
-	}
-	node = stack_a;
-	while (node)
-	{
-		if (*((int *)node->content) > *((int *)end->content))
-			end = node;
-		else
-		{
-			if (ft_lstsize(start) - ft_lstsize(end) > ft_lstsize(start2) - ft_lstsize(end2))
-			{
-				start2 = start;
-				end2 = end;
-			}
-			start = node;
-			end = node;	
-		}
-		node = node->next;
-	}
-	while (*((int *)stack_a->content) != *((int *)start2->content))
-		do_op(&stack_a, &stack_b, PUSH_B);
-	i = ft_lstsize(start2) - ft_lstsize(end2);
-	while (i)
-	{
-		do_op(&stack_a, &stack_b, ROTATE_A);
-		i--;
-	}
-	while (*((int *)stack_a->content) != *((int *)start2->content))
-		do_op(&stack_a, &stack_b, PUSH_B);
-	while (stack_b)
-	{
-		node = stack_b;
-		while (node)
-		{
-			get_r(stack_a, stack_b, node, &c_ra, &c_rb, &c_rra, &c_rrb);		
-			if (min(max(ra, rb), max(rra, rrb)) >= min(max(c_ra, c_rb), max(c_rra, c_rrb)))
-			{
-				ra = c_ra;
-				rb = c_rb;
-				rra = c_rra;
-				rrb = c_rrb;
-			}
-			node = node->next;
-		}
-		if (max(ra, rb) >= max(rra, rrb))
-			smart_reverse_rotate(&stack_a, &stack_b, rra, rrb);
-		else
-			smart_rotate(&stack_a, &stack_b, ra, rb);
-		do_op(&stack_a, &stack_b, PUSH_A);
-		ra = 0;
-		rb = size;
-		rra = 0;
-		rrb = size;
-	}
-	i = 0;
-	sm = *((int *)stack_a->content);
-	node = stack_a;
-	while (node)
-	{
-		if (sm > *((int *)node->content))
-			sm = *((int *)node->content);
-		i++;
-		node = node->next;
-	}
-	while (*((int *)stack_a->content) != sm)
-		do_op(&stack_a, &stack_b, ROTATE_A);
-}
-
-/*
-
+	max_val = *((int *)stack_a->content);
 	while (stack_a)
 	{
-		node = stack_a; 
-		smallest = node;
-		while (node)
-		{
-			if (*((int *)node->content) < *((int *)smallest->content))
-				smallest = node;
-			node = node->next;
-		}
-		if (reverse(stack_a, smallest))
-		{
-			while (*((int *)stack_a->content) != *((int *)smallest->content))
-				do_op(&stack_a, &stack_b, REVERSE_ROTATE_A);
-		}
-		else
-		{
-			while (*((int *)stack_a->content) != *((int *)smallest->content))
-				do_op(&stack_a, &stack_b, ROTATE_A);
-		}
+		if (*((int *)stack_a->content) > max_val)
+			max_val = *((int *)stack_a->content);
+		do_best_move(&stack_a, &stack_b);
 		do_op(&stack_a, &stack_b, PUSH_B);
 	}
-	while (stack_b)
-		do_op(&stack_a, &stack_b, PUSH_A);
-		if ((*(int *)stack_b->content) > (*(int *)stack_a->content))
- Run a loop for 'n' times(n is size of array)
-   having the following :
-   2.a. Keep on pushing elements in the 2nd 
-        stack till the top of second stack is 
-        smaller than element being pushed from 
-        1st stack.
-   2.b. If the element being pushed is smaller 
-        than top of 2nd stack  then swap them
-        (as in bubble sort)
-   *Do above steps alternatively
-
-
-
-void sort(stack s) {
-    if (!IsEmpty(s)) {
-        int x = Pop(s);
-        sort(s);
-        insert(s, x);
-    }
+	print_list("%d\n", stack_b);
+	//while (*(int *)stack_b->content != max_val)
+	//	do_op(&stack_a, &stack_b, ROTATE_B);
+	//while (stack_b)
+	//	do_op(&stack_a, &stack_b, PUSH_A);
+	//print_list("%d\n", stack_a);
 }
-
-void insert(stack s, int x) {
-    if (!IsEmpty(s)) {  
-        int y = Top(s);
-        if (x < y) {
-            Pop(s);
-            insert(s, x);
-            Push(s, y);
-        } else {
-            Push(s, x);
-        }
-    } else {
-        Push(s, x); 
-    }
-}
-*/

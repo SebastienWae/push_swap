@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/09 18:55:27 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/11 16:42:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,25 @@ enum e_op {
 	REVERSE_ROTATE_A,
 	REVERSE_ROTATE_B,
 	REVERSE_ROTATE_AB,
+};
+
+enum e_dir {
+	RA_RB,
+	RA_RRB,
+	RRA_RRB,
+	RRA_RB,
+	NO_DIR,
+};
+
+typedef struct s_moves	t_moves;
+
+struct	s_moves
+{
+	int			ra;
+	int			rb;
+	int			rra;
+	int			rrb;
+	enum e_dir	dir;	
 };
 
 void	error(void);
