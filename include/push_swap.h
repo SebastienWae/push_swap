@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/07 18:49:37 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/09 18:55:27 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
 # include <libft.h>
 
 enum e_op {
+	SWAP_A,
+	SWAP_B,
+	SWAP_AB,
 	PUSH_A,
 	PUSH_B,
 	ROTATE_A,
 	ROTATE_B,
-	ROATATE_AB,
+	ROTATE_AB,
 	REVERSE_ROTATE_A,
 	REVERSE_ROTATE_B,
 	REVERSE_ROTATE_AB,

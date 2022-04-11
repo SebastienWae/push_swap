@@ -6,13 +6,28 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/07 19:06:57 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/08 11:54:22 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 #include <ft_printf.h>
 #include <push_swap.h>
+
+// swap
+// Swap the first 2 elements at the top of the stack.
+static void	swap(t_list **stack)
+{
+	t_list	*head;
+
+	if (*stack)
+	{
+		head = *stack;
+		*stack = (*stack)->next;
+		head->next = (*stack)->next;
+		(*stack)->next = head;
+	}
+}
 
 // push
 // Take the first element at the top of src and put it at the top of dst.
@@ -72,9 +87,18 @@ static void	reverse_rotate(t_list **stack)
 
 void	do_op(t_list **stack_a, t_list **stack_b, enum e_op op)
 {
-	const char	*ops[] = {"pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"};
+	const char	*ops[] = {"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"};
 
-	if (!ft_strncmp(ops[op], "pa", ft_strlen(ops[op])))
+	if (!ft_strncmp(ops[op], "sa", ft_strlen(ops[op])))
+		swap(stack_a);
+	else if (!ft_strncmp(ops[op], "sb", ft_strlen(ops[op])))
+		swap(stack_b);
+	else if (!ft_strncmp(ops[op], "ss", ft_strlen(ops[op])))
+	{
+		swap(stack_a);
+		swap(stack_b);
+	}
+	else if (!ft_strncmp(ops[op], "pa", ft_strlen(ops[op])))
 		push(stack_a, stack_b);
 	else if (!ft_strncmp(ops[op], "pb", ft_strlen(ops[op])))
 		push(stack_b, stack_a);
