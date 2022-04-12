@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 20:56:43 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 20:59:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static t_arg	safe_add(t_arg n, int add, int sign)
 
 static t_arg	parse_arg(char *arg)
 {
-	int				i;
-	int				sign;
-	t_arg			res;
+	int			i;
+	int			sign;
+	t_arg		res;
 
 	i = 0;
 	sign = 1;
@@ -55,7 +55,7 @@ static t_arg	parse_arg(char *arg)
 	return (res);
 }
 
-static int	is_duplicate(t_list **list, int value)
+static int	is_in_list(t_list **list, int value)
 {
 	t_list	*tmp;
 
@@ -79,7 +79,7 @@ void	parse_args(char **values, int size, t_stacks *stacks)
 	{
 		arg = parse_arg(values[size]);
 		if ((arg.error)
-			|| (*(stacks->a) && is_duplicate(stacks->a, arg.value)))
+			|| (*(stacks->a) && is_in_list(stacks->a, arg.value)))
 			exit_error(stacks);
 		content = malloc(sizeof(int));
 		if (!content)
