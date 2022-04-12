@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 17:26:58 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/11 22:13:40 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 11:19:29 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,104 +31,6 @@ t_list	*create_stack(int *values, int size)
 		i++;
 	}
 	return (stack);
-}
-
-int	reverse(t_list *stack, t_list *smallest)
-{
-	int	size;
-	int	i;
-
-	size = ft_lstsize(stack);
-	i = ft_lstsize(smallest);
-
-	if (size - i > size / 2)
-		return (1);
-	else
-		return (0);
-}
-
-void	get_r(t_list *stack_a, t_list *stack_b, t_list *node, int *ra, int *rb, int *rra, int *rrb)
-{
-	int	size_b;
-	int	pos;
-	t_list	*tmp;
-	t_list	*prev;
-
-	size_b = ft_lstsize(stack_b);
-	pos = ft_lstsize(node);
-	*rb = size_b - pos;
-	if (stack_b->next)
-		*rrb = pos;
-	else
-		*rrb = 0;
-	tmp = stack_a;	
-	prev = NULL;
-	while (tmp)
-	{
-		if (!prev && *((int *)tmp->content) > *((int *)node->content))
-			prev = tmp;
-		else if (prev && *((int *)tmp->content) < *((int *)prev->content) && *((int *)tmp->content) > *((int *)node->content))
-			prev = tmp;
-		tmp = tmp->next;
-	}
-	if (prev)
-	{
-		*ra = ft_lstsize(stack_a) - ft_lstsize(prev);
-		*rra = ft_lstsize(prev);
-	}
-	else
-	{
-		tmp = stack_a;	
-		prev = tmp;
-		while (tmp)
-		{
-			if (*((int *)tmp->content) > *((int *)prev->content))
-				prev = tmp;
-			tmp = tmp->next;
-		}
-		*ra = ft_lstsize(stack_a) - ft_lstsize(prev) + 1;
-		*rra = ft_lstsize(prev) - 1;
-	}
-}
-
-void	smart_reverse_rotate(t_list **stack_a, t_list **stack_b, int rra, int rrb)
-{
-	while (rra > 0 && rrb > 0)
-	{
-		do_op(stack_a, stack_b, REVERSE_ROTATE_AB);
-		rra--;
-		rrb--;
-	}
-	while (rra > 0)
-	{
-		do_op(stack_a, stack_b, REVERSE_ROTATE_A);
-		rra--;
-	}
-	while (rrb > 0)
-	{
-		do_op(stack_a, stack_b, REVERSE_ROTATE_B);
-		rrb--;
-	}
-}
-
-void	smart_rotate(t_list **stack_a, t_list **stack_b, int ra, int rb)
-{
-	while (ra > 0 && rb > 0)
-	{
-		do_op(stack_a, stack_b, ROTATE_AB);
-		ra--;
-		rb--;
-	}
-	while (ra > 0)
-	{
-		do_op(stack_a, stack_b, ROTATE_A);
-		ra--;
-	}
-	while (rb > 0)
-	{
-		do_op(stack_a, stack_b, ROTATE_B);
-		rb--;
-	}
 }
 
 int	max(int a, int b)
@@ -277,7 +179,87 @@ void	do_smart_moves(t_list **stack_a, t_list **stack_b, t_moves moves)
 	}
 }
 
-void	do_best_move(t_list **stack_a, t_list **stack_b)
+int	in_list(t_list *list, int value)
+{
+	t_list	*tmp;
+
+	tmp = list;
+	while (tmp)
+	{
+		if (*((int *)tmp->content) == value)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	same_list(t_list *list_a, t_list *list_b)
+{
+	t_list	*tmp_a;
+	t_list	*tmp_b;
+
+	tmp_a = list_a;
+	tmp_b = list_b;
+	if (ft_lstsize(list_a) != ft_lstsize(list_b))
+		return (0);
+	while (tmp_a && tmp_b)
+	{
+		if (*((int *)tmp_a->content) != *((int *)tmp_b->content))
+			return (0);
+		tmp_a = tmp_a->next;
+		tmp_b = tmp_b->next;
+	}
+	return (1);
+}
+
+void	do_best_move2(t_list **stack_a, t_list **stack_b)
+{
+	t_list	*stack_a_node;
+	t_list	*stack_b_node;
+	t_list	*target;
+	t_list	*smallest;
+	t_moves	best_moves;
+	t_moves	curr_moves;
+	int		size_a;
+	int		size_b;
+
+	size_a = ft_lstsize(*stack_a);
+	size_b = ft_lstsize(*stack_b);
+	stack_b_node = *stack_b;
+	best_moves.ra = 999999;
+	best_moves.rb = 999999;
+	best_moves.rra = 999999;
+	best_moves.rrb = 999999;
+	while (stack_b_node)
+	{
+		curr_moves.rrb = ft_lstsize(stack_b_node);
+		curr_moves.rb = size_b - curr_moves.rrb;
+		stack_a_node = *stack_a;
+		target = NULL;
+		smallest = stack_a_node;
+		while (stack_a_node)
+		{
+			// smallest bigger than b
+			if (*((int *)stack_b_node->content) <= *((int *)stack_a_node->content))
+			{
+				if (!target || *((int *)stack_a_node->content) <= *((int *)target->content))
+					target = stack_a_node;
+			}
+			if (*((int *)stack_a_node->content) <= *((int *)smallest->content))
+				smallest = stack_a_node;
+			stack_a_node = stack_a_node->next;
+		}
+		if (!target)
+			target = smallest;	
+		curr_moves.rra = ft_lstsize(target);
+		curr_moves.ra =  size_a - curr_moves.rra;
+		best_moves = better_move(best_moves, curr_moves);
+		stack_b_node = stack_b_node->next;
+	}
+	do_smart_moves(stack_a, stack_b, best_moves);
+}
+
+void	do_best_move(t_list **stack_a, t_list **stack_b, t_list *lis)
 {
 	t_list	*stack_a_node;
 	t_list	*stack_b_node;
@@ -297,35 +279,40 @@ void	do_best_move(t_list **stack_a, t_list **stack_b)
 	best_moves.rrb = 999999;
 	while (stack_a_node)
 	{
-		curr_moves.rra = ft_lstsize(stack_a_node);
-		curr_moves.ra = size_a - curr_moves.rra;
-		if (size_b)
+		if (same_list(stack_a_node, lis))
+			break ;
+		if (!in_list(lis, *((int *)stack_a_node->content)))
 		{
-			stack_b_node = *stack_b;
-			target = NULL;
-			biggest = stack_b_node;
-			while (stack_b_node)
+			curr_moves.rra = ft_lstsize(stack_a_node);
+			curr_moves.ra = size_a - curr_moves.rra;
+			if (size_b)
 			{
-				if (*((int *)stack_a_node->content) >= *((int *)stack_b_node->content))
+				stack_b_node = *stack_b;
+				target = NULL;
+				biggest = stack_b_node;
+				while (stack_b_node)
 				{
-					if (!target || *((int *)stack_b_node->content) >= *((int *)target->content))
-						target = stack_b_node;
+					if (*((int *)stack_a_node->content) >= *((int *)stack_b_node->content))
+					{
+						if (!target || *((int *)stack_b_node->content) >= *((int *)target->content))
+							target = stack_b_node;
+					}
+					if (*((int *)stack_b_node->content) >= *((int *)biggest->content))
+						biggest = stack_b_node;
+					stack_b_node = stack_b_node->next;
 				}
-				if (*((int *)stack_b_node->content) >= *((int *)biggest->content))
-					biggest = stack_b_node;
-				stack_b_node = stack_b_node->next;
+				if (!target)
+					target = biggest;	
+				curr_moves.rrb = ft_lstsize(target);
+				curr_moves.rb =  size_b - curr_moves.rrb;
 			}
-			if (!target)
-				target = biggest;	
-			curr_moves.rrb = ft_lstsize(target);
-			curr_moves.rb =  size_b - curr_moves.rrb;
+			else
+			{
+				curr_moves.rb = 0;
+				curr_moves.rrb = 0;
+			}
+			best_moves = better_move(best_moves, curr_moves);
 		}
-		else
-		{
-			curr_moves.rb = 0;
-			curr_moves.rrb = 0;
-		}
-		best_moves = better_move(best_moves, curr_moves);
 		stack_a_node = stack_a_node->next;
 	}
 	do_smart_moves(stack_a, stack_b, best_moves);
@@ -335,32 +322,97 @@ void	sort_stack(t_list *stack_a)
 {
 	t_list	*stack_b;
 	t_list	*node;
-	t_list	*max_val;
+	t_list	*min_val;
+	t_list	*lis;
+	t_list	*lis_big;
+	t_list	*lis2;
+	t_list	*lis2_big;
 
 	stack_b = NULL;
-	max_val = stack_a;
+	lis = NULL;
+	lis2 = NULL;
+	min_val = NULL;
 	node = stack_a;
 	while (node)
 	{
-		if (*((int *)node->content) > *((int *)max_val->content))
-			max_val = node;
+		if (!lis)
+		{
+			ft_lstadd_back(&lis, ft_lstnew(node->content));
+			lis_big = node;
+		}
+		else if (*((int *)node->content) > *((int *)lis_big->content))
+		{
+			ft_lstadd_back(&lis, ft_lstnew(node->content));
+			lis_big = node;
+		}
+		else
+		{
+			if (!lis2)
+			{
+				lis2 = lis;
+				lis2_big = lis_big;
+			}
+			else
+			{
+				if (ft_lstsize(lis) > ft_lstsize(lis2))
+				{
+					ft_lstclear(&lis2, NULL);
+					lis2 = lis;
+					lis2_big = lis_big;
+				}
+				else
+				{
+					ft_lstclear(&lis, NULL);
+				}
+			}
+			lis = NULL;
+			ft_lstadd_back(&lis, ft_lstnew(node->content));
+		}
 		node = node->next;
 	}
-	while (stack_a)
+	if (ft_lstsize(stack_a) > ft_lstsize(lis2))
 	{
-		do_best_move(&stack_a, &stack_b);
-		do_op(&stack_a, &stack_b, PUSH_B);
+	//	while (stack_a)
+	//	{
+	//		if (same_list(stack_a, lis2))
+	//			break ;
+	//		do_best_move(&stack_a, &stack_b, lis2);
+	//		do_op(&stack_a, &stack_b, PUSH_B);
+	//	}
+		if (ft_lstsize(lis2_big) > ft_lstsize(stack_a) / 2)
+		{
+			while (ft_lstsize(lis2_big) != 1)
+				do_op(&stack_a, &stack_b, ROTATE_A);
+		}
+		else
+		{
+			while (ft_lstsize(lis2_big) != 1)
+				do_op(&stack_a, &stack_b, REVERSE_ROTATE_A);
+		}
+		while (*((int *)stack_a->content) != *((int *)lis2->content))
+			do_op(&stack_a, &stack_b, PUSH_B);
+		while (stack_b)
+		{
+			do_best_move2(&stack_a, &stack_b);
+			do_op(&stack_a, &stack_b, PUSH_A);
+		}
 	}
-	if (ft_lstsize(max_val) > ft_lstsize(stack_b) / 2)
+	node = stack_a;
+	while (node)
 	{
-		while (stack_b != max_val)
-			do_op(&stack_a, &stack_b, ROTATE_B);
+		if (!min_val
+			|| (*((int *)node->content) < *((int *)min_val->content)))
+			min_val = node;
+		node = node->next;
+	}
+	if (ft_lstsize(min_val) > ft_lstsize(stack_a) / 2)
+	{
+		while (stack_a != min_val)
+			do_op(&stack_a, &stack_b, ROTATE_A);
 	}
 	else
 	{
-		while (stack_b != max_val)
-			do_op(&stack_a, &stack_b, REVERSE_ROTATE_B);
+		while (stack_a != min_val)
+			do_op(&stack_a, &stack_b, REVERSE_ROTATE_A);
 	}
-	while (stack_b)
-		do_op(&stack_a, &stack_b, PUSH_A);
 }
