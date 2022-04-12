@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 20:45:19 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 20:53:08 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,25 @@ struct	s_arg
 	long int	value;
 };
 
-t_list	*sort_stacks(t_stacks *s);
-void	free_stacks(t_stacks *s);
+t_stacks	init_stacks(void);
+void		free_stacks(t_stacks *s);
+t_list		*sort_stacks(t_stacks *s);
 
-void	parse_args(char **args, int size, t_stacks *stacks);
+void		parse_args(char **args, int size, t_stacks *stacks);
 
-void	do_op(t_stacks *s, enum e_op op);
-void	flush_ops(t_list *ops);
+void		do_op(t_stacks *s, enum e_op op);
+void		flush_ops(t_list *ops);
 
-void	push_a(t_list **stack_a, t_list **stack_b);
-void	push_b(t_list **stack_a, t_list **stack_b);
-void	rotate_a(t_list **stack_a, t_list **stack_b);
-void	rotate_b(t_list **stack_a, t_list **stack_b);
-void	rotate_ab(t_list **stack_a, t_list **stack_b);
-void	reverse_rotate_a(t_list **stack_a, t_list **stack_b);
-void	reverse_rotate_b(t_list **stack_a, t_list **stack_b);
-void	reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
+void		push_a(t_list **stack_a, t_list **stack_b);
+void		push_b(t_list **stack_a, t_list **stack_b);
+void		rotate_a(t_list **stack_a, t_list **stack_b);
+void		rotate_b(t_list **stack_a, t_list **stack_b);
+void		rotate_ab(t_list **stack_a, t_list **stack_b);
+void		reverse_rotate_a(t_list **stack_a, t_list **stack_b);
+void		reverse_rotate_b(t_list **stack_a, t_list **stack_b);
+void		reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
 
-void	exit_error(t_stacks *s);
-void	exit_success(t_stacks *s);
+void		exit_error(t_stacks *s);
+void		exit_success(t_stacks *s);
 
 #endif

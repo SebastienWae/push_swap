@@ -6,11 +6,21 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 20:40:43 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 20:53:21 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
+
+t_stacks	init_stacks(void)
+{
+	t_stacks	stacks;
+
+	stacks.a = malloc(sizeof(t_list *));
+	*(stacks.a) = NULL;
+	stacks.b = NULL;
+	return (stacks);
+}
 
 void	free_stacks(t_stacks *s)
 {
@@ -29,7 +39,7 @@ void	free_stacks(t_stacks *s)
 t_list	*sort_stacks(t_stacks *s)
 {
 	t_list	*ops;
-	int	*i;
+	int		*i;
 
 	(void)s;
 	i = malloc(sizeof(int));
