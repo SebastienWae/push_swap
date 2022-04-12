@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 20:46:32 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 20:56:43 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,14 @@ void	parse_args(char **values, int size, t_stacks *stacks)
 	while (size--)
 	{
 		arg = parse_arg(values[size]);
-		if (!arg.error)
-		{
-			if (*(stacks->a) && is_duplicate(stacks->a, arg.value))
-				exit_error(stacks);
-			content = malloc(sizeof(int));
-			if (!content)
-				exit_error(stacks);
-			*content = arg.value;
-			node = ft_lstnew(content);
-			ft_lstadd_back(stacks->a, node);
-		}
-		else
+		if ((arg.error)
+			|| (*(stacks->a) && is_duplicate(stacks->a, arg.value)))
 			exit_error(stacks);
+		content = malloc(sizeof(int));
+		if (!content)
+			exit_error(stacks);
+		*content = arg.value;
+		node = ft_lstnew(content);
+		ft_lstadd_back(stacks->a, node);
 	}
 }
