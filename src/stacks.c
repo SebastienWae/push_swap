@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 22:27:46 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 22:39:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ t_list	**sort_stacks(t_stacks *s)
 	int		size;
 
 	ops = malloc(sizeof(t_list *));
-	*ops = NULL;
 	size = ft_lstsize(*(s->a));
 	if (size == 1)
 		*ops = NULL;
