@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 20:53:21 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 21:05:33 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ t_stacks	init_stacks(void)
 
 	stacks.a = malloc(sizeof(t_list *));
 	*(stacks.a) = NULL;
-	stacks.b = NULL;
+	stacks.b = malloc(sizeof(t_list *));
+	*(stacks.b) = NULL;
 	return (stacks);
 }
 
@@ -32,7 +33,7 @@ void	free_stacks(t_stacks *s)
 	if (s->b)
 	{
 		ft_lstclear(s->b, free);
-		free(s->a);
+		free(s->b);
 	}
 }
 
