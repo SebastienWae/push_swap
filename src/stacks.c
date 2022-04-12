@@ -1,30 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   stacks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 16:39:29 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 18:22:52 by seb              ###   ########.fr       */
+/*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
+/*   Updated: 2022/04/12 18:15:17 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
-#include <libft.h>
 
-int	main(int argc, char **argv)
+void	free_stacks(t_stacks *s)
 {
-	t_stacks	*stacks;
-	t_list		*ops;
 
-	if (argc-- > 1)
-	{
-		stacks = NULL;
-		parse_args(&argv[1], argc, stacks);
-		ops = sort_stacks(stacks);
-		flush_ops(ops);
-		exit_success(stacks);
-	}
-	exit_error(NULL);
 }

@@ -6,119 +6,45 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/08 11:54:22 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 18:23:36 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <ft_printf.h>
 #include <push_swap.h>
+#include <ft_printf.h>
 
-// swap
-// Swap the first 2 elements at the top of the stack.
-static void	swap(t_list **stack)
+static void	print_op(void *value)
 {
-	t_list	*head;
+	char	*op_str[8];
 
-	if (*stack)
-	{
-		head = *stack;
-		*stack = (*stack)->next;
-		head->next = (*stack)->next;
-		(*stack)->next = head;
-	}
+	op_str[PUSH_A] = "pa";
+	op_str[PUSH_B] = "pb";
+	op_str[ROTATE_A] = "ra";
+	op_str[ROTATE_B] = "rb";
+	op_str[ROTATE_AB] = "rr";
+	op_str[REVERSE_ROTATE_A] = "rra";
+	op_str[REVERSE_ROTATE_B] = "rrb";
+	op_str[REVERSE_ROTATE_AB] = "rrr";
+	ft_printf("%s\n", op_str[*((int *)value)]);
 }
 
-// push
-// Take the first element at the top of src and put it at the top of dst.
-static void	push(t_list **stack_dst, t_list **stack_src)
+void	flush_ops(t_list *ops)
 {
-	t_list	*head;
-
-	if (*stack_src)
-	{
-		head = *stack_src;
-		*stack_src = (*stack_src)->next;
-		ft_lstadd_front(stack_dst, head);
-	}
+	ft_lstiter(ops, print_op);
+	ft_lstclear(&ops, NULL);
 }
 
-// rotate
-// The first element becomes the last one.
-static void	rotate(t_list **stack)
+void	do_op(t_stacks *s, enum e_op op)
 {
-	t_list	*head;
+	t_op	ops[8];
 
-	if (*stack)
-	{
-		head = *stack;
-		if (head->next)
-		{
-			*stack = (*stack)->next;
-			ft_lstadd_back(stack, head);
-			head->next = NULL;
-		}
-	}
-}
-
-// reverse rotate
-// The last element becomes the first one.
-static void	reverse_rotate(t_list **stack)
-{
-	t_list	*cur;
-	t_list	*prev;
-
-	if (*stack)
-	{
-		cur = *stack;
-		prev = NULL;
-		while (cur->next)
-		{
-			prev = cur;
-			cur = cur->next;
-		}
-		if (prev)
-		{
-			prev->next = NULL;
-			ft_lstadd_front(stack, cur);
-		}
-	}
-}
-
-void	do_op(t_list **stack_a, t_list **stack_b, enum e_op op)
-{
-	const char	*ops[] = {"sa", "sb", "ss", "pa", "pb", "ra", "rb", "rr", "rra", "rrb", "rrr"};
-
-	if (!ft_strncmp(ops[op], "sa", ft_strlen(ops[op])))
-		swap(stack_a);
-	else if (!ft_strncmp(ops[op], "sb", ft_strlen(ops[op])))
-		swap(stack_b);
-	else if (!ft_strncmp(ops[op], "ss", ft_strlen(ops[op])))
-	{
-		swap(stack_a);
-		swap(stack_b);
-	}
-	else if (!ft_strncmp(ops[op], "pa", ft_strlen(ops[op])))
-		push(stack_a, stack_b);
-	else if (!ft_strncmp(ops[op], "pb", ft_strlen(ops[op])))
-		push(stack_b, stack_a);
-	else if (!ft_strncmp(ops[op], "ra", ft_strlen(ops[op])))
-		rotate(stack_a);
-	else if (!ft_strncmp(ops[op], "rb", ft_strlen(ops[op])))
-		rotate(stack_b);
-	else if (!ft_strncmp(ops[op], "rr", ft_strlen(ops[op])))
-	{
-		rotate(stack_a);
-		rotate(stack_b);
-	}
-	else if (!ft_strncmp(ops[op], "rra", ft_strlen(ops[op])))
-		reverse_rotate(stack_a);
-	else if (!ft_strncmp(ops[op], "rrb", ft_strlen(ops[op])))
-		reverse_rotate(stack_b);
-	else if (!ft_strncmp(ops[op], "rrr", ft_strlen(ops[op])))
-	{
-		reverse_rotate(stack_a);
-		reverse_rotate(stack_b);
-	}
-	ft_printf("%s\n", ops[op]);
+	ops[PUSH_A] = push_a;
+	ops[PUSH_B] = push_b;
+	ops[ROTATE_A] = rotate_a;
+	ops[ROTATE_B] = rotate_b;
+	ops[ROTATE_AB] = rotate_ab;
+	ops[REVERSE_ROTATE_A] = reverse_rotate_a;
+	ops[REVERSE_ROTATE_B] = reverse_rotate_b;
+	ops[REVERSE_ROTATE_AB] = reverse_rotate_ab;
+	ops[op](s->a, s->b);
 }

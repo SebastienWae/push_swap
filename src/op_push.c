@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   push_swap.c                                        :+:      :+:    :+:   */
+/*   op_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/04 16:39:29 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 18:22:52 by seb              ###   ########.fr       */
+/*   Created: 2022/04/12 17:32:39 by seb               #+#    #+#             */
+/*   Updated: 2022/04/12 17:33:25 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <push_swap.h>
 #include <libft.h>
 
-int	main(int argc, char **argv)
+// push
+// Take the first element at the top of src and put it at the top of dst.
+static void	push(t_list **stack_dst, t_list **stack_src)
 {
-	t_stacks	*stacks;
-	t_list		*ops;
+	t_list	*head;
 
-	if (argc-- > 1)
+	if (*stack_src)
 	{
-		stacks = NULL;
-		parse_args(&argv[1], argc, stacks);
-		ops = sort_stacks(stacks);
-		flush_ops(ops);
-		exit_success(stacks);
+		head = *stack_src;
+		*stack_src = (*stack_src)->next;
+		ft_lstadd_front(stack_dst, head);
 	}
-	exit_error(NULL);
+}
+
+void	push_a(t_list **stack_a, t_list **stack_b)
+{
+	push(stack_a, stack_b);
+}
+
+void	push_b(t_list **stack_a, t_list **stack_b)
+{
+	push(stack_b, stack_a);
 }

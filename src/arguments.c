@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   args.c                                             :+:      :+:    :+:   */
+/*   arguments.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/09 13:10:25 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 18:19:27 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 static int	safe_int_add(unsigned int nb, int add, int sign)
 {
-	if ((nb + add > 2147483647 && sign == 1)
-		|| (nb + add > 2147483648 && sign == -1))
+	if ((nb + add > INT_MAX && sign == 1)
+		|| (nb + add > INT_MIN && sign == -1))
 		error();
 	return (nb + add);
 }
@@ -68,10 +68,10 @@ int	*parse_args(char **values, int size)
 	int		value;
 	int		*args;
 
-	i = 0;
 	args = malloc(sizeof(int) * size);
 	if (!args)
-		error();
+		exit_error(NULL);
+	i = 0;
 	while (i < size)
 	{
 		value = parse_arg(values[i]);

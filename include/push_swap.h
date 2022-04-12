@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/11 16:42:27 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/12 18:20:39 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 # include <libft.h>
 
+# define INT_MAX 2147483647
+# define INT_MIN -2147483648
+
 enum e_op {
-	SWAP_A,
-	SWAP_B,
-	SWAP_AB,
 	PUSH_A,
 	PUSH_B,
 	ROTATE_A,
@@ -29,35 +29,33 @@ enum e_op {
 	REVERSE_ROTATE_AB,
 };
 
-enum e_dir {
-	RA_RB,
-	RA_RRB,
-	RRA_RRB,
-	RRA_RB,
-	NO_DIR,
-};
+typedef struct s_stacks	t_stacks;
+typedef void			(*t_op)(t_list **, t_list **);
 
-typedef struct s_moves	t_moves;
-
-struct	s_moves
+struct	s_stacks
 {
-	int			ra;
-	int			rb;
-	int			rra;
-	int			rrb;
-	enum e_dir	dir;	
+	t_list	**a;
+	t_list	**b;
 };
 
-void	error(void);
+t_list	*sort_stacks(t_stacks *s);
+void	free_stacks(t_stacks *s);
 
-t_list	*create_stack(int *values, int size);
-void	sort_stack(t_list *stack);
+int		*parse_args(char **args, int size, t_stacks *s);
 
-int		*parse_args(char **args, int size);
+void	do_op(t_stacks *s, enum e_op op);
+void	flush_ops(t_list *ops);
 
-void	do_op(t_list **stack_a, t_list **stack_b, enum e_op op);
+void	push_a(t_list **stack_a, t_list **stack_b);
+void	push_b(t_list **stack_a, t_list **stack_b);
+void	rotate_a(t_list **stack_a, t_list **stack_b);
+void	rotate_b(t_list **stack_a, t_list **stack_b);
+void	rotate_ab(t_list **stack_a, t_list **stack_b);
+void	reverse_rotate_a(t_list **stack_a, t_list **stack_b);
+void	reverse_rotate_b(t_list **stack_a, t_list **stack_b);
+void	reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
 
-void	print_list(char *format, t_list *head);
-void	free_list(t_list *head);
+void	exit_error(t_stacks *s);
+void	exit_success(t_stacks *s);
 
 #endif

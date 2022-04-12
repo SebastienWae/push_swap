@@ -1,35 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list.c                                             :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/06 17:21:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/06 19:04:11 by seb              ###   ########.fr       */
+/*   Created: 2022/04/12 17:12:29 by seb               #+#    #+#             */
+/*   Updated: 2022/04/12 18:26:20 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-#include <ft_printf.h>
+#include <push_swap.h>
+#include <unistd.h>
 
-void	print_list(char *format, t_list *head)
+void	exit_error(t_stacks *s)
 {
-	while (head)
-	{
-		ft_printf(format, *((int *)head->content));
-		head = head->next;
-	}
+	if (s)
+		free_stacks(s);
+	ft_putendl_fd("Error", 2);
+	exit(EXIT_FAILURE);
 }
 
-void	free_list(t_list *head)
+void	exit_success(t_stacks *s)
 {
-	t_list	*next;
-
-	next = head->next;
-	while (next)
-	{
-		free(head);
-		next = head->next;
-	}
+	if (s)
+		free_stacks(s);
+	exit(EXIT_SUCCESS);
 }
