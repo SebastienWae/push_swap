@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 21:05:33 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 22:08:23 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,24 @@ void	free_stacks(t_stacks *s)
 	}
 }
 
-t_list	*sort_stacks(t_stacks *s)
+t_list	**sort_stacks(t_stacks *s)
 {
-	t_list	*ops;
-	int		*i;
+	t_list	**ops;
+	int		size;
 
-	(void)s;
-	i = malloc(sizeof(int));
-	*i = PUSH_A;
-	ops = ft_lstnew(i);
+	ops = malloc(sizeof(t_list *));
+	*ops = NULL;
+	size = ft_lstsize(*(s->a));
+	if (size == 1)
+		*ops = NULL;
+	else if (size == 2)
+	{
+		if (*((int *)(*s->a)->content) < *((int *)(*s->a)->next->content))
+			do_op(s, ops, ROTATE_A);
+	}
+	else if (size == 3)
+		sort_small(s, ops);
+	else
+		sort_big(s, ops);
 	return (ops);
 }

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 20:41:58 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 22:03:19 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include <ft_printf.h>
 
 static void	print_op(void *value)
+{
+	ft_printf("%s\n", (char *)value);
+}
+
+static char	*get_op_str(enum e_op op)
 {
 	char	*op_str[8];
 
@@ -25,26 +30,30 @@ static void	print_op(void *value)
 	op_str[REVERSE_ROTATE_A] = "rra";
 	op_str[REVERSE_ROTATE_B] = "rrb";
 	op_str[REVERSE_ROTATE_AB] = "rrr";
-	ft_printf("%s\n", op_str[*((int *)value)]);
+	return (op_str[op]);
 }
 
-void	flush_ops(t_list *ops)
+void	flush_ops(t_list **ops)
 {
-	ft_lstiter(ops, print_op);
-	ft_lstclear(&ops, free);
+	ft_lstiter(*ops, print_op);
+	free(ops);
 }
 
-void	do_op(t_stacks *s, enum e_op op)
+void	do_op(t_stacks *s, t_list **ops, enum e_op op)
 {
-	t_op	ops[8];
+	t_op	ops_f[8];
 
-	ops[PUSH_A] = push_a;
-	ops[PUSH_B] = push_b;
-	ops[ROTATE_A] = rotate_a;
-	ops[ROTATE_B] = rotate_b;
-	ops[ROTATE_AB] = rotate_ab;
-	ops[REVERSE_ROTATE_A] = reverse_rotate_a;
-	ops[REVERSE_ROTATE_B] = reverse_rotate_b;
-	ops[REVERSE_ROTATE_AB] = reverse_rotate_ab;
-	ops[op](s->a, s->b);
+	ops_f[PUSH_A] = push_a;
+	ops_f[PUSH_B] = push_b;
+	ops_f[ROTATE_A] = rotate_a;
+	ops_f[ROTATE_B] = rotate_b;
+	ops_f[ROTATE_AB] = rotate_ab;
+	ops_f[REVERSE_ROTATE_A] = reverse_rotate_a;
+	ops_f[REVERSE_ROTATE_B] = reverse_rotate_b;
+	ops_f[REVERSE_ROTATE_AB] = reverse_rotate_ab;
+	ops_f[op](s->a, s->b);
+	if (*ops)
+		ft_lstadd_back(ops, ft_lstnew(get_op_str(op)));
+	else
+		*ops = ft_lstnew(get_op_str(op));
 }
