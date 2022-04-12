@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 18:23:36 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 20:41:58 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	print_op(void *value)
 void	flush_ops(t_list *ops)
 {
 	ft_lstiter(ops, print_op);
-	ft_lstclear(&ops, NULL);
+	ft_lstclear(&ops, free);
 }
 
 void	do_op(t_stacks *s, enum e_op op)

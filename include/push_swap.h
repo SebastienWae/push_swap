@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 18:20:39 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 20:45:19 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ enum e_op {
 };
 
 typedef struct s_stacks	t_stacks;
+typedef struct s_arg	t_arg;
 typedef void			(*t_op)(t_list **, t_list **);
 
 struct	s_stacks
@@ -37,11 +38,16 @@ struct	s_stacks
 	t_list	**a;
 	t_list	**b;
 };
+struct	s_arg
+{
+	int			error:1;
+	long int	value;
+};
 
 t_list	*sort_stacks(t_stacks *s);
 void	free_stacks(t_stacks *s);
 
-int		*parse_args(char **args, int size, t_stacks *s);
+void	parse_args(char **args, int size, t_stacks *stacks);
 
 void	do_op(t_stacks *s, enum e_op op);
 void	flush_ops(t_list *ops);

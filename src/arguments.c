@@ -6,29 +6,33 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 18:19:27 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 20:46:32 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 #include <stdlib.h>
 
-static int	safe_int_add(unsigned int nb, int add, int sign)
+static t_arg	safe_add(t_arg n, int add, int sign)
 {
-	if ((nb + add > INT_MAX && sign == 1)
-		|| (nb + add > INT_MIN && sign == -1))
-		error();
-	return (nb + add);
+	if ((n.value * 10 + add > INT_MAX && sign == 1)
+		|| (n.value * 10 + add > INT_MIN * -1 && sign == -1))
+		n.error = 1;
+	else
+	{
+		n.value *= 10;
+		n.value += add;
+	}
+	return (n);
 }
 
-static int	parse_arg(char *arg)
+static t_arg	parse_arg(char *arg)
 {
 	int				i;
-	long int		nb;
 	int				sign;
+	t_arg			res;
 
 	i = 0;
-	nb = 0;
 	sign = 1;
 	if (arg[i] == '-')
 	{
@@ -37,48 +41,55 @@ static int	parse_arg(char *arg)
 	}
 	else if (arg[i] == '+')
 		i++;
+	res.value = 0;
+	res.error = 0;
 	while (arg[i])
 	{
 		if (arg[i] >= '0' && arg[i] <= '9')
-			nb = safe_int_add(nb * 10, arg[i] - '0', sign);
+			res = safe_add(res, arg[i] - '0', sign);
 		else
-			error();
+			res.error = 1;
 		i++;
 	}
-	return (nb * sign);
+	res.value *= sign;
+	return (res);
 }
 
-
-static void	check_dup(int *values, int size, int nb)
+static int	is_duplicate(t_list **list, int value)
 {
-	int		i;
+	t_list	*tmp;
 
-	i = 0;
-	while (i < size)
+	tmp = *list;
+	while (tmp)
 	{
-		if (values[i] == nb)
-			error();
-		i++;
+		if (*((int *)tmp->content) == value)
+			return (1);
+		tmp = tmp->next;
 	}
+	return (0);
 }
 
-int	*parse_args(char **values, int size)
+void	parse_args(char **values, int size, t_stacks *stacks)
 {
-	int		i;
-	int		value;
-	int		*args;
+	t_list	*node;
+	int		*content;
+	t_arg	arg;
 
-	args = malloc(sizeof(int) * size);
-	if (!args)
-		exit_error(NULL);
-	i = 0;
-	while (i < size)
+	while (size--)
 	{
-		value = parse_arg(values[i]);
-		if (i > 0)
-			check_dup(args, i, value);
-		args[i] = value;
-		i++;
+		arg = parse_arg(values[size]);
+		if (!arg.error)
+		{
+			if (*(stacks->a) && is_duplicate(stacks->a, arg.value))
+				exit_error(stacks);
+			content = malloc(sizeof(int));
+			if (!content)
+				exit_error(stacks);
+			*content = arg.value;
+			node = ft_lstnew(content);
+			ft_lstadd_back(stacks->a, node);
+		}
+		else
+			exit_error(stacks);
 	}
-	return (args);
 }
