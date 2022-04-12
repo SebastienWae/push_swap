@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 22:03:19 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 22:23:14 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,11 @@ static void	print_op(void *value)
 
 static char	*get_op_str(enum e_op op)
 {
-	char	*op_str[8];
+	char	*op_str[11];
 
+	op_str[SWAP_A] = "sa";
+	op_str[SWAP_B] = "sb";
+	op_str[SWAP_AB] = "ss";
 	op_str[PUSH_A] = "pa";
 	op_str[PUSH_B] = "pb";
 	op_str[ROTATE_A] = "ra";
@@ -41,8 +44,11 @@ void	flush_ops(t_list **ops)
 
 void	do_op(t_stacks *s, t_list **ops, enum e_op op)
 {
-	t_op	ops_f[8];
+	t_op	ops_f[11];
 
+	ops_f[SWAP_A] = swap_a;
+	ops_f[SWAP_B] = swap_b;
+	ops_f[SWAP_AB] = swap_ab;
 	ops_f[PUSH_A] = push_a;
 	ops_f[PUSH_B] = push_b;
 	ops_f[ROTATE_A] = rotate_a;

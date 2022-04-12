@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 22:08:23 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 22:27:46 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_list	**sort_stacks(t_stacks *s)
 		*ops = NULL;
 	else if (size == 2)
 	{
-		if (*((int *)(*s->a)->content) < *((int *)(*s->a)->next->content))
+		if (*((int *)(*s->a)->content) > *((int *)(*s->a)->next->content))
 			do_op(s, ops, ROTATE_A);
 	}
 	else if (size == 3)
