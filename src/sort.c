@@ -6,14 +6,25 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 21:34:42 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 22:25:39 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 22:42:38 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 #include <libft.h>
 
-void	sort_small(t_stacks *s, t_list **ops)
+void	sort_two(t_stacks *s, t_list **ops)
+{
+	int	top;
+	int	btm;
+
+	top = *((int *)(*s->a)->content);
+	btm = *((int *)(*s->a)->next->next->content);
+	if (btm > top)
+		do_op(s, ops, ROTATE_A);
+}
+
+void	sort_three(t_stacks *s, t_list **ops)
 {
 	int	top;
 	int	mid;

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 22:23:18 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/12 22:43:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_stacks	init_stacks(void);
 void		free_stacks(t_stacks *s);
 t_list		**sort_stacks(t_stacks *s);
 
-void		sort_small(t_stacks *s, t_list **ops);
+void		sort_two(t_stacks *s, t_list **ops);
+void		sort_three(t_stacks *s, t_list **ops);
 void		sort_big(t_stacks *s, t_list **ops);
 
 void		parse_args(char **args, int size, t_stacks *stacks);
