@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   stacks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 22:42:55 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 16:47:39 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
-t_stacks	init_stacks(void)
+t_stacks	*init_stacks(void)
 {
-	t_stacks	stacks;
+	t_stacks	*stacks;
 
-	stacks.a = malloc(sizeof(t_list *));
-	*(stacks.a) = NULL;
-	stacks.b = malloc(sizeof(t_list *));
-	*(stacks.b) = NULL;
+	stacks = malloc(sizeof(t_stacks));
+	stacks->a = malloc(sizeof(t_list *));
+	*(stacks->a) = NULL;
+	stacks->b = malloc(sizeof(t_list *));
+	*(stacks->b) = NULL;
 	return (stacks);
 }
 
@@ -43,14 +44,13 @@ t_list	**sort_stacks(t_stacks *s)
 	int		size;
 
 	ops = malloc(sizeof(t_list *));
+	*ops = NULL;
 	size = ft_lstsize(*(s->a));
-	if (size == 1)
-		*ops = NULL;
-	else if (size == 2)
+	if (size == 2)
 		sort_two(s, ops);
 	else if (size == 3)
 		sort_three(s, ops);
-	else
+	else if (size > 1)
 		sort_big(s, ops);
 	return (ops);
 }

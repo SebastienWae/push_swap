@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 21:34:42 by seb               #+#    #+#             */
-/*   Updated: 2022/04/13 11:34:44 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 16:01:47 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	sort_two(t_stacks *s, t_list **ops)
 	int	btm;
 
 	top = *((int *)(*s->a)->content);
-	btm = *((int *)(*s->a)->next->next->content);
-	if (btm > top)
+	btm = *((int *)(*s->a)->next->content);
+	if (top > btm)
 		do_op(s, ops, ROTATE_A);
 }
 

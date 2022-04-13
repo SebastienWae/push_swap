@@ -6,12 +6,14 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/21 12:33:22 by swaegene          #+#    #+#              #
-#    Updated: 2022/02/28 12:17:38 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/13 16:18:20 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC := gcc
-CFLAGS := -Wall -Wextra -Werror
+#CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -g3 -fsanitize=address
+
 
 NAME := libft.a
 

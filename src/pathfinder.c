@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:49:36 by seb               #+#    #+#             */
-/*   Updated: 2022/04/13 13:52:00 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/13 17:11:51 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,35 +20,43 @@ static void	place_in_queue(t_state *s, t_moves moves, t_list **queue)
 
 	direction = get_best_direction(moves);
 	do_multi_ops(s, moves, direction);
-	op_count = ft_lstsize(*s->ops);
+	op_count = ft_lstsize(*(s->ops));
 	tmp_queue = *queue;
-	while (ft_lstsize(*(((t_state *)tmp_queue->content)->ops)) < op_count)
-		tmp_queue = tmp_queue->next;
-	ft_lstadd_before(queue, tmp_queue);
+	if (*queue)
+	{
+		while (tmp_queue
+			&& ft_lstsize(*(((t_state *)tmp_queue->content)->ops)) < op_count)
+			tmp_queue = tmp_queue->next;
+		ft_lstadd_before(queue, tmp_queue, ft_lstnew(s));
+	}
+	else
+		*queue = ft_lstnew(s);
 }
 
 void	prioritize(t_state *state, t_list **queue)
 {
 	t_state		*new_state;
-	t_stacks	tmp_stacks;
+	t_stacks	*tmp_stacks;
 	t_moves		moves;
+	t_list		*stack_a;
 
 	tmp_stacks = init_stacks();
-	tmp_stacks.a = state->stacks->b;
-	tmp_stacks.b = state->stacks->b;
-	while (*(tmp_stacks.b))
+	ft_lstclone(state->stacks->a, tmp_stacks->a);
+	ft_lstclone(state->stacks->b, tmp_stacks->b);
+	while (*(tmp_stacks->b))
 	{
-		moves.rrb = ft_lstsize(*(tmp_stacks.b));
+		moves.rrb = ft_lstsize(*(tmp_stacks->b));
 		moves.rb = ft_lstsize(*(state->stacks->b)) - moves.rrb;
-		while (*(tmp_stacks.a))
+		stack_a = *(tmp_stacks->a);
+		while (stack_a)
 		{
 			new_state = clone_state(state);
-			moves.rra = ft_lstsize(*(tmp_stacks.a));
+			moves.rra = ft_lstsize(*(tmp_stacks->a));
 			moves.ra = ft_lstsize(*(state->stacks->a)) - moves.rra;
 			place_in_queue(new_state, moves, queue);
-			*(tmp_stacks.a) = (*tmp_stacks.a)->next;
+			stack_a = stack_a->next;
 		}
-		*(tmp_stacks.b) = (*tmp_stacks.b)->next;
+		*(tmp_stacks->b) = (*tmp_stacks->b)->next;
 	}
 }
 

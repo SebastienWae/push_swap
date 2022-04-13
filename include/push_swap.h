@@ -6,7 +6,7 @@
 /*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/13 13:52:12 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/13 16:56:52 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ struct	s_moves
 	int	rrb;
 };
 
-t_stacks	init_stacks(void);
+t_stacks	*init_stacks(void);
 void		free_stacks(t_stacks *s);
 t_list		**sort_stacks(t_stacks *s);
 
@@ -104,7 +104,8 @@ void		rra_rb(t_state *s, t_moves m);
 enum e_dir	get_best_direction(t_moves moves);
 
 t_list		*ft_lstpop(t_list **list);
-void		ft_lstadd_before(t_list **list, t_list *node);
+void		ft_lstadd_before(t_list **list, t_list *node, t_list *elem);
+void		ft_lstclone(t_list **list, t_list **clone);
 
 void		exit_error(t_stacks *s);
 void		exit_success(t_stacks *s);

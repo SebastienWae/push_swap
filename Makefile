@@ -6,7 +6,7 @@
 #    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/13 13:23:35 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/13 15:59:06 by swaegene         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,8 @@ ifdef MAKE_DEBUG
 OUT_DIR = ./debug/
 NAME := $(OUT_DIR)$(NAME)
 DIRS = $(OUT_DIR)
-#CFLAGS = -g3 -fsanitize=address
-CFLAGS = -g3
+CFLAGS = -g3 -fsanitize=address
+#CFLAGS = -g3
 else
 OUT_DIR = ./
 endif
@@ -37,7 +37,7 @@ LDFLAGS += -L./$(FT_PRINTF) -L./$(LIBFT) -lftprintf -lft
 
 SRCS = push_swap.c stacks.c arguments.c exit.c operations.c sort.c \
 	op_swap.c op_push.c op_reverse_rotate.c op_rotate.c list.c op_multi.c \
-	pathfinder.c utils.c
+	pathfinder.c utils.c direction.c state.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a
