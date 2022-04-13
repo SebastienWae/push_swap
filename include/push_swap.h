@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/13 22:18:56 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 23:17:06 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct s_arg	t_arg;
 typedef struct s_state	t_state;
 typedef struct s_moves	t_moves;
 typedef void			(*t_op)(t_list **, t_list **);
-typedef void			(*t_multi_op)(t_state *, t_moves);
+typedef void			(*t_multi_op)(t_stacks *, t_list **, t_moves);
 
 struct	s_stacks
 {
@@ -62,17 +62,18 @@ struct	s_state
 };
 struct	s_moves
 {
-	int	ra;
-	int	rb;
-	int	rra;
-	int	rrb;
+	int			ra;
+	int			rb;
+	int			rra;
+	int			rrb;
+	enum e_dir	dir;
 };
 
 t_stacks	*init_stacks(void);
 void		free_stacks(t_stacks *s);
 t_list		**sort_stacks(t_stacks *s);
 
-void		prioritize(t_state *state, t_list **queue);
+void		nn(t_stacks *s, t_list **ops);
 
 void		sort_two(t_stacks *s, t_list **ops);
 void		sort_three(t_stacks *s, t_list **ops);
@@ -82,7 +83,7 @@ void		parse_args(char **args, int size, t_stacks *stacks);
 
 void		flush_ops(t_list **ops);
 void		do_op(t_stacks *s, t_list **ops, enum e_op op);
-void		do_multi_ops(t_state *s, t_moves m, enum e_dir d);
+void		do_multi_ops(t_stacks *s, t_list **ops, t_moves moves);
 
 void		swap_a(t_list **stack_a, t_list **stack_b);
 void		swap_b(t_list **stack_a, t_list **stack_b);
@@ -96,10 +97,10 @@ void		reverse_rotate_a(t_list **stack_a, t_list **stack_b);
 void		reverse_rotate_b(t_list **stack_a, t_list **stack_b);
 void		reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
 
-void		ra_rb(t_state *s, t_moves m);
-void		ra_rrb(t_state *s, t_moves m);
-void		rra_rrb(t_state *s, t_moves m);
-void		rra_rb(t_state *s, t_moves m);
+void		ra_rb(t_stacks *s, t_list **ops, t_moves moves);
+void		ra_rrb(t_stacks *s, t_list **ops, t_moves moves);
+void		rra_rrb(t_stacks *s, t_list **ops, t_moves moves);
+void		rra_rb(t_stacks *s, t_list **ops, t_moves moves);
 
 enum e_dir	get_best_direction(t_moves moves);
 

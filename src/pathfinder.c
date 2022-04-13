@@ -6,38 +6,38 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:49:36 by seb               #+#    #+#             */
-/*   Updated: 2022/04/13 22:37:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 23:51:47 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
 
-static void	place_in_queue(t_state *s, t_moves moves, t_list **queue)
-{
-	enum e_dir	direction;
-	int			op_count;
-	t_list		*tmp;
-
-	direction = get_best_direction(moves);
-	do_multi_ops(s, moves, direction);
-	do_op(s->stacks, s->ops, PUSH_A);
-	op_count = ft_lstsize(*(s->ops));
-	tmp = *queue;
-	if (*queue)
-	{
-		if (ft_lstsize(*(((t_state *)tmp->content)->ops)) < op_count)
-		{
-			while (tmp
-				&& ft_lstsize(*(((t_state *)tmp->content)->ops)) < op_count)
-				tmp = tmp->next;
-			ft_lstadd_before(queue, tmp, ft_lstnew(s));
-		}
-		else
-			ft_lstadd_front(queue, ft_lstnew(s));
-	}
-	else
-		*queue = ft_lstnew(s);
-}
+//static void	place_in_queue(t_state *s, t_moves moves, t_list **queue)
+//{
+//	enum e_dir	direction;
+//	int			op_count;
+//	t_list		*tmp;
+//
+//	direction = get_best_direction(moves);
+//	do_multi_ops(s, moves, direction);
+//	do_op(s->stacks, s->ops, PUSH_A);
+//	op_count = ft_lstsize(*(s->ops));
+//	tmp = *queue;
+//	if (*queue)
+//	{
+//		if (ft_lstsize(*(((t_state *)tmp->content)->ops)) < op_count)
+//		{
+//			while (tmp
+//				&& ft_lstsize(*(((t_state *)tmp->content)->ops)) < op_count)
+//				tmp = tmp->next;
+//			ft_lstadd_before(queue, tmp, ft_lstnew(s));
+//		}
+//		else
+//			ft_lstadd_front(queue, ft_lstnew(s));
+//	}
+//	else
+//		*queue = ft_lstnew(s);
+//}
 
 static t_list	*get_target(t_stacks *stacks)
 {
@@ -65,35 +65,56 @@ static t_list	*get_target(t_stacks *stacks)
 	return (target);
 }
 
-void	prioritize(t_state *state, t_list **queue)
+t_moves	get_least_moves(t_moves a, t_moves b)
 {
-	t_state		*new_state;
-	t_stacks	*tmp_stacks;
-	t_moves		moves;
-	t_list		*target;
+	int	a_total;
+	int	b_total;
 
-	tmp_stacks = init_stacks();
-	ft_lstclone(state->stacks->a, tmp_stacks->a);
-	ft_lstclone(state->stacks->b, tmp_stacks->b);
-	while (*(tmp_stacks->b))
-	{
-		moves.rrb = ft_lstsize(*(tmp_stacks->b));
-		moves.rb = ft_lstsize(*(state->stacks->b)) - moves.rrb;
-		target = get_target(tmp_stacks);
-		moves.rra = ft_lstsize(target);
-		moves.ra = ft_lstsize(*(state->stacks->a)) - moves.rra;
-		new_state = clone_state(state);
-		place_in_queue(new_state, moves, queue);
-		*(tmp_stacks->b) = (*tmp_stacks->b)->next;
-	}
+	if (a.dir == RA_RB)
+		a_total = max(a.ra, a.rb);
+	else if (a.dir == RA_RRB)
+		a_total = a.ra + a.rrb;
+	else if (a.dir == RRA_RRB)
+		a_total = max(a.rra, a.rrb);
+	else
+		a_total = max(a.rra, a.rb);
+	if (b.dir == RA_RB)
+		b_total = max(b.ra, b.rb);
+	else if (b.dir == RA_RRB)
+		b_total = b.ra + b.rrb;
+	else if (b.dir == RRA_RRB)
+		b_total = max(b.rra, b.rrb);
+	else
+		b_total = max(b.rra, b.rb);
+	if (a_total > b_total)
+		return (b);
+	else
+		return (a);
 }
 
-/*
-	- prioritized list of state (stacks + ops)
-	- take first state
-	- if done return
-	- remove from list
-	- calculate all new possible states
-	- place them in order in list
-	- get next item from list
-*/
+void	nn(t_stacks *s, t_list **ops)
+{
+	t_stacks	tmp;
+	t_moves		curr_moves;
+	t_moves		least_moves;
+	t_list		*target;
+
+	tmp.a = s->a;
+	tmp.b = s->b;
+	while (*(tmp.b))
+	{
+		curr_moves.rrb = ft_lstsize(*(tmp.b));
+		curr_moves.rb = ft_lstsize(*(s->b)) - curr_moves.rrb;
+		target = get_target(&tmp);
+		curr_moves.rra = ft_lstsize(target);
+		curr_moves.ra = ft_lstsize(*(s->a)) - curr_moves.rra;
+		curr_moves.dir = get_best_direction(curr_moves);
+		if (*(tmp.b) == *(s->b))
+			least_moves = curr_moves;
+		else
+			least_moves = get_least_moves(curr_moves, least_moves);
+		tmp.b = &((*(tmp.b))->next);
+	}
+	do_multi_ops(s, ops, least_moves);
+	do_op(s, ops, PUSH_A);
+}
