@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 21:34:42 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 22:42:38 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 11:34:44 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,19 @@ void	sort_three(t_stacks *s, t_list **ops)
 
 void	sort_big(t_stacks *s, t_list **ops)
 {
-	(void)s;
-	(void)ops;
+	t_state	inital_state;
+	t_list	*priority_list;
+	t_state	*top;
+
+	while ((*s->a)->next)
+		do_op(s, ops, PUSH_B);
+	inital_state.stacks = s;
+	inital_state.ops = ops;
+	priority_list = ft_lstnew(&inital_state);
+	while (*(((t_state *)priority_list->content)->stacks->b))
+	{
+		top = (t_state *)ft_lstpop(&priority_list)->content;
+		prioritize(top, &priority_list);
+	}
+	*ops = *((t_state *)priority_list->content)->ops;
 }

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 22:43:16 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 12:03:39 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,18 @@ enum e_op {
 	REVERSE_ROTATE_B,
 	REVERSE_ROTATE_AB,
 };
+enum e_dir {
+	RA_RB,
+	RA_RRB,
+	RRA_RRB,
+	RRA_RB,
+	NO_DIR,
+};
 
 typedef struct s_stacks	t_stacks;
 typedef struct s_arg	t_arg;
+typedef struct s_state	t_state;
+typedef struct s_moves	t_moves;
 typedef void			(*t_op)(t_list **, t_list **);
 
 struct	s_stacks
@@ -46,10 +55,24 @@ struct	s_arg
 	int			error:1;
 	long int	value;
 };
+struct	s_state
+{
+	t_stacks	*stacks;
+	t_list		**ops;
+};
+struct	s_moves
+{
+	int	ra;
+	int	rb;
+	int	rra;
+	int	rrb;
+};
 
 t_stacks	init_stacks(void);
 void		free_stacks(t_stacks *s);
 t_list		**sort_stacks(t_stacks *s);
+
+void		prioritize(t_state *state, t_list **queue);
 
 void		sort_two(t_stacks *s, t_list **ops);
 void		sort_three(t_stacks *s, t_list **ops);
@@ -72,7 +95,14 @@ void		reverse_rotate_a(t_list **stack_a, t_list **stack_b);
 void		reverse_rotate_b(t_list **stack_a, t_list **stack_b);
 void		reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
 
+enum e_dir	get_best_direction(t_moves moves);
+
+t_list		*ft_lstpop(t_list **list);
+
 void		exit_error(t_stacks *s);
 void		exit_success(t_stacks *s);
+
+int			min(int a, int b);
+int			max(int a, int b);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/12 22:23:30 by seb              ###   ########.fr        #
+#    Updated: 2022/04/13 11:56:39 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ CPPFLAGS += -I./include -I./$(FT_PRINTF)/include -I./$(LIBFT)
 LDFLAGS += -L./$(FT_PRINTF) -L./$(LIBFT) -lftprintf -lft
 
 SRCS = push_swap.c stacks.c arguments.c exit.c operations.c sort.c \
-	op_swap.c op_push.c op_reverse_rotate.c op_rotate.c
+	op_swap.c op_push.c op_reverse_rotate.c op_rotate.c list.c pathfinder.c \
+	utils.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a
