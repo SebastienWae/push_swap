@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   operations.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/12 22:23:14 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 13:28:27 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,15 @@ void	do_op(t_stacks *s, t_list **ops, enum e_op op)
 		ft_lstadd_back(ops, ft_lstnew(get_op_str(op)));
 	else
 		*ops = ft_lstnew(get_op_str(op));
+}
+
+void	do_multi_ops(t_state *s, t_moves moves, enum e_dir dir)
+{
+	t_multi_op	multi_ops_f[4];
+
+	multi_ops_f[RA_RB] = ra_rb;
+	multi_ops_f[RA_RRB] = ra_rrb;
+	multi_ops_f[RRA_RRB] = rra_rrb;
+	multi_ops_f[RRA_RB] = rra_rb;
+	multi_ops_f[dir](s, moves);
 }

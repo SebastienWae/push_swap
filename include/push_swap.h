@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/13 12:03:39 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/13 13:52:12 by swaegene         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ enum e_dir {
 	RA_RRB,
 	RRA_RRB,
 	RRA_RB,
-	NO_DIR,
 };
 
 typedef struct s_stacks	t_stacks;
@@ -44,6 +43,7 @@ typedef struct s_arg	t_arg;
 typedef struct s_state	t_state;
 typedef struct s_moves	t_moves;
 typedef void			(*t_op)(t_list **, t_list **);
+typedef void			(*t_multi_op)(t_state *, t_moves);
 
 struct	s_stacks
 {
@@ -80,8 +80,9 @@ void		sort_big(t_stacks *s, t_list **ops);
 
 void		parse_args(char **args, int size, t_stacks *stacks);
 
-void		do_op(t_stacks *s, t_list **ops, enum e_op op);
 void		flush_ops(t_list **ops);
+void		do_op(t_stacks *s, t_list **ops, enum e_op op);
+void		do_multi_ops(t_state *s, t_moves m, enum e_dir d);
 
 void		swap_a(t_list **stack_a, t_list **stack_b);
 void		swap_b(t_list **stack_a, t_list **stack_b);
@@ -95,12 +96,20 @@ void		reverse_rotate_a(t_list **stack_a, t_list **stack_b);
 void		reverse_rotate_b(t_list **stack_a, t_list **stack_b);
 void		reverse_rotate_ab(t_list **stack_a, t_list **stack_b);
 
+void		ra_rb(t_state *s, t_moves m);
+void		ra_rrb(t_state *s, t_moves m);
+void		rra_rrb(t_state *s, t_moves m);
+void		rra_rb(t_state *s, t_moves m);
+
 enum e_dir	get_best_direction(t_moves moves);
 
 t_list		*ft_lstpop(t_list **list);
+void		ft_lstadd_before(t_list **list, t_list *node);
 
 void		exit_error(t_stacks *s);
 void		exit_success(t_stacks *s);
+
+t_state		*clone_state(t_state *state);
 
 int			min(int a, int b);
 int			max(int a, int b);
