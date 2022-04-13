@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 21:34:42 by seb               #+#    #+#             */
-/*   Updated: 2022/04/13 16:01:47 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/13 23:02:47 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,27 @@ void	sort_three(t_stacks *s, t_list **ops)
 		do_op(s, ops, REVERSE_ROTATE_A);
 }
 
+#include <ft_printf.h>
 void	sort_big(t_stacks *s, t_list **ops)
 {
 	t_state	inital_state;
-	t_list	*priority_list;
+	t_list	*queue;
 	t_state	*top;
+	int		smallest;
 
-	while ((*s->a)->next)
+	smallest = ft_lstsmallest(s->a);
+	while ((*(s->a))->next->next->next)
 		do_op(s, ops, PUSH_B);
+	sort_three(s, ops);
 	inital_state.stacks = s;
 	inital_state.ops = ops;
-	priority_list = ft_lstnew(&inital_state);
-	while (*(((t_state *)priority_list->content)->stacks->b))
+	queue = ft_lstnew(&inital_state);
+	while (*(((t_state *)queue->content)->stacks->b))
 	{
-		top = (t_state *)ft_lstpop(&priority_list)->content;
-		prioritize(top, &priority_list);
+		top = (t_state *)ft_lstpop(&queue)->content;
+		prioritize(top, &queue);
 	}
-	*ops = *((t_state *)priority_list->content)->ops;
+	*ops = *((t_state *)queue->content)->ops;
+	while (*((int *)(*(((t_state *)queue->content)->stacks->a))->content) != smallest)
+		do_op(((t_state *)queue->content)->stacks, ops, ROTATE_A);
 }

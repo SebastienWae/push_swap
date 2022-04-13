@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 11:27:59 by seb               #+#    #+#             */
-/*   Updated: 2022/04/13 17:10:02 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/13 22:18:36 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,20 @@ void	ft_lstclone(t_list **list, t_list **clone)
 			ft_lstadd_back(clone, ft_lstnew(tmp->content));
 		tmp = tmp->next;
 	}
+}
+
+int	ft_lstsmallest(t_list **list)
+{
+	int		ret;
+	t_list	*tmp;
+
+	tmp = *list;
+	ret = *((int *)tmp->content);
+	while (tmp)
+	{
+		if (*((int *)tmp->content) < ret)
+			ret = *((int *)tmp->content);
+		tmp = tmp->next;
+	}
+	return (ret);
 }
