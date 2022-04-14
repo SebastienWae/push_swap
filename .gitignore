@@ -6,4 +6,9 @@
 .vscode/dryrun.log
 .vscode/targets.log
 push_swap
-checker
+checker_linux
+checker_macos
+viz
+.codechecker
+.cache
+compile_commands.json

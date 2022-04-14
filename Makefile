@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/14 09:28:10 by seb              ###   ########.fr        #
+#    Updated: 2022/04/14 12:11:38 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,5 +69,8 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+compile_commands.json:
+	compiledb -f make re
 
 .PHONY: all clean fclean re $(MINILIBX) $(FT_PRINTF) $(LIBFT)
