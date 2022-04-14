@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+         #
+#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/13 15:59:06 by swaegene         ###   ########.fr        #
+#    Updated: 2022/04/14 09:28:10 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ LDFLAGS += -L./$(FT_PRINTF) -L./$(LIBFT) -lftprintf -lft
 
 SRCS = push_swap.c stacks.c arguments.c exit.c operations.c sort.c \
 	op_swap.c op_push.c op_reverse_rotate.c op_rotate.c list.c op_multi.c \
-	pathfinder.c utils.c direction.c state.c
+	pathfinder.c utils.c direction.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a
@@ -54,6 +54,9 @@ $(LIBFT)/libft.a:
 
 $(DIRS):
 	$(MKDIR) "$@"
+
+check: CFLAGS = -fanalyzer
+check: re
 
 bonus: $(NAME)
 

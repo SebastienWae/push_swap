@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 22:27:56 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/14 09:26:02 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	parse_args(char **values, int size, t_stacks *stacks)
 			exit_error(stacks);
 		content = malloc(sizeof(int));
 		if (!content)
-			exit_error(stacks);
+			return ;
 		*content = arg.value;
 		node = ft_lstnew(content);
 		ft_lstadd_front(stacks->a, node);

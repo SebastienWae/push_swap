@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   stacks.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: swaegene <swaegene@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/13 16:47:39 by swaegene         ###   ########.fr       */
+/*   Updated: 2022/04/14 09:25:23 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,22 @@ t_stacks	*init_stacks(void)
 	t_stacks	*stacks;
 
 	stacks = malloc(sizeof(t_stacks));
+	if (!stacks)
+		return (NULL);
 	stacks->a = malloc(sizeof(t_list *));
+	if (!stacks->a)
+	{
+		free(stacks);
+		return (NULL);
+	}
 	*(stacks->a) = NULL;
 	stacks->b = malloc(sizeof(t_list *));
+	if (!stacks->b)
+	{
+		free(stacks->a);
+		free(stacks);
+		return (NULL);
+	}
 	*(stacks->b) = NULL;
 	return (stacks);
 }
@@ -44,6 +57,8 @@ t_list	**sort_stacks(t_stacks *s)
 	int		size;
 
 	ops = malloc(sizeof(t_list *));
+	if (!ops)
+		return (NULL);
 	*ops = NULL;
 	size = ft_lstsize(*(s->a));
 	if (size == 2)
