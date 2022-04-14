@@ -6,38 +6,11 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:49:36 by seb               #+#    #+#             */
-/*   Updated: 2022/04/13 23:51:47 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/14 08:47:14 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <push_swap.h>
-
-//static void	place_in_queue(t_state *s, t_moves moves, t_list **queue)
-//{
-//	enum e_dir	direction;
-//	int			op_count;
-//	t_list		*tmp;
-//
-//	direction = get_best_direction(moves);
-//	do_multi_ops(s, moves, direction);
-//	do_op(s->stacks, s->ops, PUSH_A);
-//	op_count = ft_lstsize(*(s->ops));
-//	tmp = *queue;
-//	if (*queue)
-//	{
-//		if (ft_lstsize(*(((t_state *)tmp->content)->ops)) < op_count)
-//		{
-//			while (tmp
-//				&& ft_lstsize(*(((t_state *)tmp->content)->ops)) < op_count)
-//				tmp = tmp->next;
-//			ft_lstadd_before(queue, tmp, ft_lstnew(s));
-//		}
-//		else
-//			ft_lstadd_front(queue, ft_lstnew(s));
-//	}
-//	else
-//		*queue = ft_lstnew(s);
-//}
 
 static t_list	*get_target(t_stacks *stacks)
 {

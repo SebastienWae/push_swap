@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/13 23:17:06 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/14 08:48:55 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,10 @@ void		rra_rb(t_stacks *s, t_list **ops, t_moves moves);
 
 enum e_dir	get_best_direction(t_moves moves);
 
-t_list		*ft_lstpop(t_list **list);
-void		ft_lstadd_before(t_list **list, t_list *node, t_list *elem);
-void		ft_lstclone(t_list **list, t_list **clone);
 int			ft_lstsmallest(t_list **list);
 
 void		exit_error(t_stacks *s);
 void		exit_success(t_stacks *s);
-
-t_state		*clone_state(t_state *state);
 
 int			min(int a, int b);
 int			max(int a, int b);
