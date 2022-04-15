@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:49:36 by seb               #+#    #+#             */
-/*   Updated: 2022/04/14 08:47:14 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/14 14:23:32 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_list	*get_target(t_stacks *stacks)
 	return (target);
 }
 
-t_moves	get_least_moves(t_moves a, t_moves b)
+static t_moves	get_least_moves(t_moves a, t_moves b)
 {
 	int	a_total;
 	int	b_total;
@@ -59,10 +59,43 @@ t_moves	get_least_moves(t_moves a, t_moves b)
 		b_total = max(b.rra, b.rrb);
 	else
 		b_total = max(b.rra, b.rb);
-	if (a_total > b_total)
-		return (b);
-	else
+	if (a_total < b_total)
 		return (a);
+	else
+		return (b);
+}
+
+void	get_lis(t_stacks *s, t_list **lis_start, t_list **lis_end)
+{
+	t_list	*node;
+	t_list	*tmp_lis_start;
+	t_list	*tmp_lis_end;
+
+	node = *(s->a);
+	tmp_lis_start = node;
+	tmp_lis_end = node;
+	while (node)
+	{
+		if (*((int *)node->content) > *((int *)tmp_lis_end->content))
+			tmp_lis_end = node;
+		else
+		{
+			if (!*lis_start)
+			{
+				*lis_start = tmp_lis_start;
+				*lis_end = tmp_lis_end;
+			}
+			else if (ft_lstsize(tmp_lis_start) - ft_lstsize(tmp_lis_end)
+				> ft_lstsize(*lis_start) - ft_lstsize(*lis_end))
+			{
+				*lis_start = tmp_lis_start;
+				*lis_end = tmp_lis_end;
+			}
+			tmp_lis_start = node;
+			tmp_lis_end = node;
+		}
+		node = node->next;
+	}
 }
 
 void	nn(t_stacks *s, t_list **ops)
@@ -74,6 +107,8 @@ void	nn(t_stacks *s, t_list **ops)
 
 	tmp.a = s->a;
 	tmp.b = s->b;
+	curr_moves.dir = 0;
+	least_moves.dir = 0;
 	while (*(tmp.b))
 	{
 		curr_moves.rrb = ft_lstsize(*(tmp.b));

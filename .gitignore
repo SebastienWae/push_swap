@@ -12,3 +12,4 @@ viz
 .codechecker
 .cache
 compile_commands.json
+imgui.ini

@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/14 08:48:55 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/15 11:58:33 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,13 @@ enum e_op {
 	ROTATE_AB,
 	REVERSE_ROTATE_A,
 	REVERSE_ROTATE_B,
-	REVERSE_ROTATE_AB,
+	REVERSE_ROTATE_AB
 };
 enum e_dir {
 	RA_RB,
 	RA_RRB,
 	RRA_RRB,
-	RRA_RB,
+	RRA_RB
 };
 
 typedef struct s_stacks	t_stacks;
@@ -73,10 +73,12 @@ t_stacks	*init_stacks(void);
 void		free_stacks(t_stacks *s);
 t_list		**sort_stacks(t_stacks *s);
 
+void		get_lis(t_stacks *s, t_list **lis_start, t_list **lis_end);
 void		nn(t_stacks *s, t_list **ops);
 
 void		sort_two(t_stacks *s, t_list **ops);
 void		sort_three(t_stacks *s, t_list **ops);
+void		sort_small(t_stacks *s, t_list **ops);
 void		sort_big(t_stacks *s, t_list **ops);
 
 void		parse_args(char **args, int size, t_stacks *stacks);
@@ -104,7 +106,8 @@ void		rra_rb(t_stacks *s, t_list **ops, t_moves moves);
 
 enum e_dir	get_best_direction(t_moves moves);
 
-int			ft_lstsmallest(t_list **list);
+t_list		*ft_lstsmallest(t_list **list);
+t_list		*ft_lstgetindex(t_list **list, int index);
 
 void		exit_error(t_stacks *s);
 void		exit_success(t_stacks *s);
