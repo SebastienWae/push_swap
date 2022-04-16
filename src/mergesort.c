@@ -6,13 +6,13 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/16 10:57:08 by seb               #+#    #+#             */
-/*   Updated: 2022/04/16 12:58:17 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 13:24:15 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-t_list	*sorted_merge(t_list *a, t_list *b)
+static t_list	*sorted_merge(t_list *a, t_list *b)
 {
 	t_list	*result;
 

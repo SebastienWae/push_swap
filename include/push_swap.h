@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/16 12:45:20 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 13:25:35 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,8 @@ t_stacks	*init_stacks(void);
 void		free_stacks(t_stacks *s);
 t_list		**sort_stacks(t_stacks *s);
 
-void		get_pivots(t_list **list, int pivots[2]);
 void		chunk(t_stacks *s, t_list **ops);
-void		nn(t_stacks *s, t_list **ops);
-
+void		bfs(t_stacks *s, t_list **ops);
 void		merge_sort(t_list **list);
 
 void		sort_two(t_stacks *s, t_list **ops);
@@ -85,6 +83,7 @@ void		sort_small(t_stacks *s, t_list **ops);
 void		sort_big(t_stacks *s, t_list **ops);
 
 void		parse_args(char **args, int size, t_stacks *stacks);
+void		split_args(char **args);
 
 void		flush_ops(t_list **ops);
 void		do_op(t_stacks *s, t_list **ops, enum e_op op);
