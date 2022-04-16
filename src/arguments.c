@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/16 17:39:13 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 21:41:57 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	is_in_list(t_list **list, int value)
 	return (0);
 }
 
-void	parse_args(char **values, int size, t_stacks *stacks)
+int	parse_args(char **values, int size, t_stacks *stacks)
 {
 	t_list	*node;
 	int		*content;
@@ -80,24 +80,33 @@ void	parse_args(char **values, int size, t_stacks *stacks)
 		arg = parse_arg(values[size]);
 		if ((arg.error)
 			|| (*(stacks->a) && is_in_list(stacks->a, arg.value)))
-			exit_error(stacks);
+			return (0);
 		content = malloc(sizeof(int));
 		if (!content)
-			return ;
+			return (0);
 		*content = arg.value;
 		node = ft_lstnew(content);
 		ft_lstadd_front(stacks->a, node);
 	}
+	return (1);
 }
 
 void	split_parse_arg(char *arg, t_stacks *stacks)
 {
 	char	**values;
 	int		size;
+	int		i;
 
 	values = ft_split(arg, ' ');
 	size = 0;
 	while (values[size])
 		size++;
 	parse_args(values, size, stacks);
+	i = 0;
+	while (values[i])
+	{
+		free(values[i]);
+		i++;
+	}
+	free(values);
 }

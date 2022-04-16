@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/16 16:58:18 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 21:41:27 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		sort_three(t_stacks *s, t_list **ops);
 void		sort_small(t_stacks *s, t_list **ops);
 void		sort_big(t_stacks *s, t_list **ops);
 
-void		parse_args(char **args, int size, t_stacks *stacks);
+int			parse_args(char **args, int size, t_stacks *stacks);
 void		split_parse_arg(char *arg, t_stacks *stacks);
 
 void		flush_ops(t_list **ops);

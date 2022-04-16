@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 14:47:33 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/15 12:05:24 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 21:22:12 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ void	flush_ops(t_list **ops)
 	if (ops && *ops)
 		ft_lstiter(*ops, print_op);
 	if (ops)
+	{
+		ft_lstclear(ops, NULL);
 		free(ops);
+	}
 }
 
 void	do_op(t_stacks *s, t_list **ops, enum e_op op)

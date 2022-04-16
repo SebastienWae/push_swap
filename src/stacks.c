@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/16 09:51:09 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 21:30:09 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	free_stacks(t_stacks *s)
 		ft_lstclear(s->b, free);
 		free(s->b);
 	}
+	free(s);
 }
 
 t_list	**sort_stacks(t_stacks *s)
