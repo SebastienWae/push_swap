@@ -6,14 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 17:32:39 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 17:33:25 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 10:26:28 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-// push
-// Take the first element at the top of src and put it at the top of dst.
 static void	push(t_list **stack_dst, t_list **stack_src)
 {
 	t_list	*head;

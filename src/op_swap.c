@@ -6,14 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 22:21:03 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 22:23:07 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 10:26:14 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-// swap
-// Swap the first 2 elements at the top of the stack.
 static void	swap(t_list **stack)
 {
 	t_list	*head;

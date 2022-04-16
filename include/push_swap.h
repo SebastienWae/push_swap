@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:39:43 by swaegene          #+#    #+#             */
-/*   Updated: 2022/04/15 11:58:33 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 12:45:20 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,11 @@ t_stacks	*init_stacks(void);
 void		free_stacks(t_stacks *s);
 t_list		**sort_stacks(t_stacks *s);
 
-void		get_lis(t_stacks *s, t_list **lis_start, t_list **lis_end);
+void		get_pivots(t_list **list, int pivots[2]);
+void		chunk(t_stacks *s, t_list **ops);
 void		nn(t_stacks *s, t_list **ops);
+
+void		merge_sort(t_list **list);
 
 void		sort_two(t_stacks *s, t_list **ops);
 void		sort_three(t_stacks *s, t_list **ops);
@@ -108,11 +111,14 @@ enum e_dir	get_best_direction(t_moves moves);
 
 t_list		*ft_lstsmallest(t_list **list);
 t_list		*ft_lstgetindex(t_list **list, int index);
+int			ft_lstissorted(t_list **list);
+t_list		*ft_lstclone(t_list **src);
 
 void		exit_error(t_stacks *s);
 void		exit_success(t_stacks *s);
 
 int			min(int a, int b);
 int			max(int a, int b);
+int			median(int array[], int size);
 
 #endif

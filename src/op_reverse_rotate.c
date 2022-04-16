@@ -6,14 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 17:36:35 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 17:37:42 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 10:26:24 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-// reverse rotate
-// The last element becomes the first one.
 static void	reverse_rotate(t_list **stack)
 {
 	t_list	*cur;

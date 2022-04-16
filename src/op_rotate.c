@@ -6,14 +6,12 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 17:34:27 by seb               #+#    #+#             */
-/*   Updated: 2022/04/12 17:36:19 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 10:26:18 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
-// rotate
-// The first element becomes the last one.
 static void	rotate(t_list **stack)
 {
 	t_list	*head;

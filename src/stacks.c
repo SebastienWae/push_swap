@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 18:14:53 by seb               #+#    #+#             */
-/*   Updated: 2022/04/15 11:56:51 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 09:51:09 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +51,12 @@ void	free_stacks(t_stacks *s)
 	}
 }
 
-static int	is_sorted(t_stacks *s)
-{
-	t_list	*node;
-	t_list	*prev;
-
-	node = *(s->a);
-	prev = node;
-	while (node)
-	{
-		if (*((int *)prev->content) > *((int *)node->content))
-			return (0);
-		prev = node;
-		node = node->next;
-	}
-	return (1);
-}
-
 t_list	**sort_stacks(t_stacks *s)
 {
 	t_list	**ops;
 	int		size;
 
-	if (!is_sorted(s))
+	if (!ft_lstissorted(s->a))
 	{
 		ops = malloc(sizeof(t_list *));
 		if (!ops)

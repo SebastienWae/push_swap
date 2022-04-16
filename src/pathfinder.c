@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 10:49:36 by seb               #+#    #+#             */
-/*   Updated: 2022/04/14 14:23:32 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 13:01:16 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,56 +59,63 @@ static t_moves	get_least_moves(t_moves a, t_moves b)
 		b_total = max(b.rra, b.rrb);
 	else
 		b_total = max(b.rra, b.rb);
-	if (a_total < b_total)
-		return (a);
-	else
+	if (a_total >= b_total)
 		return (b);
+	else
+		return (a);
 }
 
-void	get_lis(t_stacks *s, t_list **lis_start, t_list **lis_end)
+void	get_pivots(t_list **list, int pivots[2])
 {
-	t_list	*node;
-	t_list	*tmp_lis_start;
-	t_list	*tmp_lis_end;
+	int		p[3];
+	t_list	*o;
 
-	node = *(s->a);
-	tmp_lis_start = node;
-	tmp_lis_end = node;
-	while (node)
+	o = ft_lstclone(list);
+	merge_sort(&o);
+	p[0] = *((int *)(o)->content);
+	p[1] = *((int *)(ft_lstgetindex(&o, ft_lstsize(o) / 4))->content);
+	p[2] = *((int *)(ft_lstgetindex(&o, ft_lstsize(o) / 2))->content);
+	pivots[0] = median(p, 3);
+	p[0] = *((int *)(ft_lstgetindex(&o, ft_lstsize(o) / 2))->content);
+	p[1] = *((int *)(ft_lstgetindex(&o, ft_lstsize(o) / 4 * 3))->content);
+	p[2] = *((int *)(ft_lstgetindex(&o, ft_lstsize(o)))->content);
+	pivots[1] = median(p, 3);
+}
+
+void	chunk(t_stacks *s, t_list **ops)
+{
+	int		pivots[2];
+	int		size;
+
+	get_pivots(s->a, pivots);
+	size = ft_lstsize(*(s->a));
+	while (size--)
 	{
-		if (*((int *)node->content) > *((int *)tmp_lis_end->content))
-			tmp_lis_end = node;
-		else
+		if (*((int *)(*(s->a))->content) < pivots[0])
 		{
-			if (!*lis_start)
-			{
-				*lis_start = tmp_lis_start;
-				*lis_end = tmp_lis_end;
-			}
-			else if (ft_lstsize(tmp_lis_start) - ft_lstsize(tmp_lis_end)
-				> ft_lstsize(*lis_start) - ft_lstsize(*lis_end))
-			{
-				*lis_start = tmp_lis_start;
-				*lis_end = tmp_lis_end;
-			}
-			tmp_lis_start = node;
-			tmp_lis_end = node;
+			do_op(s, ops, PUSH_B);
+			do_op(s, ops, ROTATE_B);
 		}
-		node = node->next;
+		else if (*((int *)(*(s->a))->content) < pivots[1])
+		{
+			do_op(s, ops, PUSH_B);
+		}
+		else
+			do_op(s, ops, ROTATE_A);
 	}
 }
 
 void	nn(t_stacks *s, t_list **ops)
 {
-	t_stacks	tmp;
-	t_moves		curr_moves;
-	t_moves		least_moves;
-	t_list		*target;
+	t_stacks			tmp;
+	static t_moves		curr_moves;
+	t_moves				least_moves;
+	t_list				*target;
 
 	tmp.a = s->a;
 	tmp.b = s->b;
 	curr_moves.dir = 0;
-	least_moves.dir = 0;
+	least_moves = curr_moves;
 	while (*(tmp.b))
 	{
 		curr_moves.rrb = ft_lstsize(*(tmp.b));
