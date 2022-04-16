@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/16 13:28:44 by seb              ###   ########.fr        #
+#    Updated: 2022/04/16 17:08:54 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ LDFLAGS += -L./$(FT_PRINTF) -L./$(LIBFT) -lftprintf -lft
 
 SRCS = push_swap.c stacks.c arguments.c exit.c operations.c sort.c \
 	op_swap.c op_push.c op_reverse_rotate.c op_rotate.c list.c op_multi.c \
-	bfs.c math.c direction.c mergesort.c chunck.c
+	bfs.c math.c direction.c mergesort.c chunk.c
 OBJS = $(addprefix $(OUT_DIR),$(SRCS:%.c=%.o))
 
 $(NAME): $(DIRS) $(OBJS) $(LIBFT)/libft.a $(FT_PRINTF)/libftprintf.a

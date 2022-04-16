@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/14 09:26:02 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/16 17:39:13 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,16 @@ void	parse_args(char **values, int size, t_stacks *stacks)
 		node = ft_lstnew(content);
 		ft_lstadd_front(stacks->a, node);
 	}
+}
+
+void	split_parse_arg(char *arg, t_stacks *stacks)
+{
+	char	**values;
+	int		size;
+
+	values = ft_split(arg, ' ');
+	size = 0;
+	while (values[size])
+		size++;
+	parse_args(values, size, stacks);
 }

@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Debug",
 			"program": "${workspaceFolder}/debug/push_swap",
-			"args": ["17", "12", "4", "222", "78"],
+			"args": ["8 639 737 92"],
 			"cwd": "${workspaceFolder}"
 		}
 	]
