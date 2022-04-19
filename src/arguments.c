@@ -6,7 +6,7 @@
 /*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 17:07:11 by seb               #+#    #+#             */
-/*   Updated: 2022/04/16 21:41:57 by seb              ###   ########.fr       */
+/*   Updated: 2022/04/19 08:30:30 by seb              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,15 @@ void	split_parse_arg(char *arg, t_stacks *stacks)
 	char	**values;
 	int		size;
 	int		i;
+	int		err;
 
+	err = 0;
 	values = ft_split(arg, ' ');
 	size = 0;
 	while (values[size])
 		size++;
-	parse_args(values, size, stacks);
+	if (!parse_args(values, size, stacks))
+		err = 1;
 	i = 0;
 	while (values[i])
 	{
@@ -109,4 +112,6 @@ void	split_parse_arg(char *arg, t_stacks *stacks)
 		i++;
 	}
 	free(values);
+	if (err)
+		exit_error(stacks);
 }

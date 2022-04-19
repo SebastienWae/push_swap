@@ -6,7 +6,7 @@
 #    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/28 13:49:18 by swaegene          #+#    #+#              #
-#    Updated: 2022/04/16 21:28:49 by seb              ###   ########.fr        #
+#    Updated: 2022/04/19 08:32:22 by seb              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,8 +24,7 @@ ifdef MAKE_DEBUG
 OUT_DIR = ./debug/
 NAME := $(OUT_DIR)$(NAME)
 DIRS = $(OUT_DIR)
-#CFLAGS = -g3 -fsanitize=address
-CFLAGS = -g3
+CFLAGS = -g3 -fsanitize=address
 else
 OUT_DIR = ./
 endif
@@ -57,8 +56,6 @@ $(DIRS):
 
 check: CFLAGS = -fanalyzer
 check: re
-
-bonus: $(NAME)
 
 all: $(NAME)
 
